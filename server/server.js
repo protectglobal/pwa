@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const { ApolloServer } = require('apollo-server-express');
 const schema = require('./src/graphql/exec-schema');
 const initDB = require('./src/init-db');
+const faultCodes = require('./src/routes/fault-codes');
 
 //------------------------------------------------------------------------------
 // LOGS
@@ -26,7 +27,7 @@ console.log(
 // Initialize Express server. Port is set by Heroku when the app is deployed or
 // when running locally using the 'heroku local' command.
 const app = express();
-app.set('port', (PORT || 3001));
+app.set('port', (PORT || 5001));
 
 //------------------------------------------------------------------------------
 // MIDDLEWARES
@@ -37,7 +38,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 // Enable the app to receive requests from the React app when running locally.
 if (isNotProduction) {
-  app.use('*', cors({ origin: 'http://localhost:3000' }));
+  app.use('*', cors({ origin: 'http://localhost:5000' }));
 }
 
 //------------------------------------------------------------------------------
@@ -61,7 +62,7 @@ const staticFiles = express.static(path.join(__dirname, '../../client/build'));
 app.use(staticFiles);
 
 //------------------------------------------------------------------------------
-// ROUTES
+// APOLLO SERVER
 //------------------------------------------------------------------------------
 const server = new ApolloServer({
   schema,
@@ -72,6 +73,11 @@ const server = new ApolloServer({
   },
 });
 server.applyMiddleware({ app, path: '/graphql' });
+
+//------------------------------------------------------------------------------
+// ROUTES
+//------------------------------------------------------------------------------
+app.use('/fault-codes', faultCodes);
 
 //------------------------------------------------------------------------------
 // CATCH ALL

@@ -62,10 +62,10 @@ class HomePage extends React.PureComponent {
 
     return (
       <div>
-        <Title>Controller App</Title>
+        <Title>PWA</Title>
         <div className="flex">
           <Half>
-            <FogCannon />
+            {/* <FogCannon /> */}
             <div className="mb2" />
             <Console
               faultCode={faultCode}
@@ -80,12 +80,12 @@ class HomePage extends React.PureComponent {
               Clear console
             </Button>
           </Half>
-          <Spacer />
+          {/* <Spacer />
           <Half>
             <FaultCodes
               onClick={this.handleFaultCodeClick}
             />
-          </Half>
+          </Half> */}
         </div>
       </div>
     );

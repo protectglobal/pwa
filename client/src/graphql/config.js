@@ -10,7 +10,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 const { NODE_ENV, REACT_APP_GRAPHQL_URI } = process.env;
 
 const isNotProduction = NODE_ENV !== 'production';
-const uri = isNotProduction ? 'http://localhost:3001/graphql' : REACT_APP_GRAPHQL_URI;
+const uri = isNotProduction ? 'http://localhost:5001/graphql' : REACT_APP_GRAPHQL_URI;
 
 // Log
 console.log(
