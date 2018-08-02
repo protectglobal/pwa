@@ -10,6 +10,10 @@ const typeDefs = `
   type Query {
     events: [Event]!
   }
+
+  type Mutation {
+    clearEvents: Response!
+  }
 `;
 
 module.exports = typeDefs;

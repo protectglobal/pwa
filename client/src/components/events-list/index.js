@@ -38,11 +38,10 @@ const EventsList = ({ eventsData }) => {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>_id</TableCell>
-            <TableCell>createdAt</TableCell>
-            <TableCell>cannonId</TableCell>
             <TableCell>eventType</TableCell>
             <TableCell>eventValue</TableCell>
+            <TableCell>createdAt</TableCell>
+            <TableCell>cannonId</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -54,11 +53,10 @@ const EventsList = ({ eventsData }) => {
             eventValue,
           }) => (
             <TableRow key={_id}>
-              <TableCell>{_id}</TableCell>
-              <TableCell>{createdAt}</TableCell>
-              <TableCell>{cannonId}</TableCell>
               <TableCell>{eventType}</TableCell>
               <TableCell>{eventValue.toString()}</TableCell>
+              <TableCell>{createdAt}</TableCell>
+              <TableCell>{cannonId}</TableCell>
             </TableRow>
           ))}
         </TableBody>
