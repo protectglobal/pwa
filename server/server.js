@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const { ApolloServer } = require('apollo-server-express');
 const schema = require('./src/graphql/exec-schema');
 const initDB = require('./src/init-db');
-const faultCodes = require('./src/routes/fault-codes');
+const events = require('./src/routes/events');
 
 //------------------------------------------------------------------------------
 // LOGS
@@ -77,7 +77,7 @@ server.applyMiddleware({ app, path: '/graphql' });
 //------------------------------------------------------------------------------
 // ROUTES
 //------------------------------------------------------------------------------
-app.use('/fault-codes', faultCodes);
+app.use('/events', events);
 
 //------------------------------------------------------------------------------
 // CATCH ALL
