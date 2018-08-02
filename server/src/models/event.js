@@ -13,7 +13,7 @@ const schema = mongoose.Schema({
   },
   eventType: {
     type: String,
-    enum: ['faultCode', 'input'],
+    enum: ['faultCode', 'cannonInput'],
     required: [true, 'Event type required'],
   },
   eventValue: {
