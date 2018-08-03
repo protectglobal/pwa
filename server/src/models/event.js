@@ -4,8 +4,6 @@ const schema = mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now,
-    // required: true,
-    // index: true,
   },
   cannonId: {
     type: String,
