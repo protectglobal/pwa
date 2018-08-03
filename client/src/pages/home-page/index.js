@@ -13,13 +13,25 @@ const Title = styled.h3`
   color: tomato;
 `;
 //------------------------------------------------------------------------------
+const Json = styled.pre`
+  word-wrap: break-word;
+  white-space: pre-wrap;
+`;
+//------------------------------------------------------------------------------
 // COMPONENT:
 //------------------------------------------------------------------------------
 const HomePage = ({ curUser }) => (
   <div>
     <Title>PWA</Title>
-    <div>{JSON.stringify(curUser, { indent: true })}</div>
+    <div className="mb2" />
+    <h3>Current User</h3>
+    <Json>
+      {JSON.stringify(curUser, null, 2)}
+    </Json>
+    <div className="mb2" />
+    <h3>Set User&apos; Phone</h3>
     <TwilioForm curUser={curUser} />
+    <div className="mb2" />
     <h3>Events List - <ClearEventsBtn /></h3>
     <EventsList />
     <div className="mb2" />
