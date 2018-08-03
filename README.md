@@ -39,9 +39,9 @@ Once we have our Mongo provider, these are the next steps that we need to follow
 >> yarn install
 >> yarn start
 ```
-The app should be running on port 3000 --> http://localhost:3000
+The app should be running on port 5000 --> http://localhost:5000
 
-Please notice, when running the app locally, there will be two servers running simultaneously: one for serving the create-react-app (CRA) and another one for the Express app. The CRA should be accessible via [http://localhost:3000/](http://localhost:3000/), and the Express app via [http://localhost:3001/](http://localhost:3001/). The GraphQL playground should be running on [http://localhost:3001/graphql](http://localhost:3001/graphql) (only accessible in dev mode).
+Please notice, when running the app locally, there will be two servers running simultaneously: one for serving the create-react-app (CRA) and another one for the Express app. The CRA should be accessible via [http://localhost:5000/](http://localhost:5000/), and the Express app via [http://localhost:5001/](http://localhost:5001/). The GraphQL playground should be running on [http://localhost:5001/graphql](http://localhost:5001/graphql) (only accessible in dev mode).
 
 ## Running the app locally in production mode
 1. Follow the steps above to setup your Mongo service.

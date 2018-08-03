@@ -1,9 +1,9 @@
-// const FaultCode = require('./fault-code');
+// const Event = require('./event');
 const Query = require('./query');
 const Mutation = require('./mutation');
 
 const resolvers = {
-  // FaultCode,
+  // Event,
   Query,
   Mutation,
 };
