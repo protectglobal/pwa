@@ -27,4 +27,4 @@ const send = async ({ to, body }, cb) => {
   }
 };
 
-export default send;
+module.exports = send;

@@ -1,16 +1,16 @@
 const apiTest = require('./api-test');
 const send = require('./send');
 
-const TwilioAPI = {};
+const twilioAPI = {};
 
 //------------------------------------------------------------------------------
-TwilioAPI.testTwilioAPI = (cb) => {
+twilioAPI.testTwilioAPI = (cb) => {
   apiTest(cb);
 };
 //------------------------------------------------------------------------------
-TwilioAPI.send = (args) => {
+twilioAPI.send = (args) => {
   send(args);
 };
 //------------------------------------------------------------------------------
 
-module.exports = TwilioAPI;
+module.exports = twilioAPI;
