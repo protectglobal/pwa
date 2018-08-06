@@ -30,7 +30,7 @@ router.post('/', async (req, res) => {
   // TODO get user associted to cannon id
   const user = await User.findOne({}).exec();
 
-  if (user || user.phone || user.phone.trim().length > 0) {
+  if (user && user.phone && user.phone.trim().length > 0) {
     twilioAPI.send({
       to: user.phone.trim(),
       body: `${eventType} - ${eventValue}`,

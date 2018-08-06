@@ -7,11 +7,18 @@ const typeDefs = `
     eventValue: [String]!
   }
 
+  input EventInput {
+    cannonId: String!
+    eventType: String!
+    eventValue: String!
+  }
+
   type Query {
     events: [Event]!
   }
 
   type Mutation {
+    postEvent(event: EventInput!): Response!
     clearEvents: Response!
   }
 `;
