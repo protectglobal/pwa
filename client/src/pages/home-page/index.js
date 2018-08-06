@@ -45,7 +45,7 @@ const INIT_STATE = {
 // COMPONENT:
 //------------------------------------------------------------------------------
 class HomePage extends React.PureComponent {
-  state = Object.assign({}, INIT_STATE);
+  state = Object.assign({}, INIT_STATE)
 
   handleEventPost = async (event) => {
     const { postEvent } = this.props;
