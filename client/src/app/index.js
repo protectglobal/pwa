@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { ApolloProvider } from 'react-apollo';
 import { Router } from 'react-router-dom';
 import createBrowserHistory from 'history/createBrowserHistory';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import client from '../graphql/config';
 import theme from '../mui-theme';
-import Routes from '../routes';
+import GlobalDataProvider from '../global-data-provider';
 
 // Given that we are implementing App Shell Architecture and, therefore,
 // injecting (via reactDOM.render) the Header, Menu and Main components into
@@ -20,14 +21,22 @@ import Routes from '../routes';
 // the same 'history' object will be shared among all three mentioned components.
 const history = createBrowserHistory();
 
-const App = () => (
+const App = ({ component }) => (
   <Router history={history}>
     <ApolloProvider client={client}>
       <MuiThemeProvider theme={theme}>
-        <Routes />
+        <GlobalDataProvider>
+          {globalDataProps => (
+            React.createElement(component, { ...globalDataProps })
+          )}
+        </GlobalDataProvider>
       </MuiThemeProvider>
     </ApolloProvider>
   </Router>
 );
+
+App.propTypes = {
+  component: PropTypes.func.isRequired,
+};
 
 export default App;
