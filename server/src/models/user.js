@@ -1,6 +1,14 @@
 const mongoose = require('mongoose');
 const { isEmail } = require('validator');
 const Joi = require('joi');
+const jwt = require('jsonwebtoken');
+
+const { JWT_PRIVATE_KEY } = process.env;
+
+if (!JWT_PRIVATE_KEY || JWT_PRIVATE_KEY.length === 0) {
+  console.error('FATAL ERROR: JWT_PRIVATE_KEY env var missing');
+  process.exit(1);
+}
 
 // Constants
 const MIN_STRING_LENGTH = 2;
@@ -41,6 +49,10 @@ const schema = mongoose.Schema({
     maxlength: MAX_STRING_LENGTH,
   },
 });
+
+schema.methods.genAuthToken = function () {
+  return jwt.sign({ _id: this._id }, JWT_PRIVATE_KEY);
+};
 
 const User = mongoose.model('User', schema);
 

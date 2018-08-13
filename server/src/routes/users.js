@@ -1,17 +1,10 @@
 const express = require('express');
 const pick = require('lodash/pick');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+
 const { User, validateNewUser } = require('../models');
 
 const router = express.Router();
-
-const { JWT_PRIVATE_KEY } = process.env;
-
-if (!JWT_PRIVATE_KEY || JWT_PRIVATE_KEY.length === 0) {
-  console.error('FATAL ERROR: JWT_PRIVATE_KEY env var missing');
-  process.exit(1);
-}
 
 router.post('/', async (req, res) => {
   const data = req.body;
@@ -40,7 +33,7 @@ router.post('/', async (req, res) => {
   try {
     const user = new User(newUser);
     await user.save();
-    const token = jwt.sign({ _id: user._id }, JWT_PRIVATE_KEY);
+    const token = user.genAuthToken();
     res.header('x-auth-token', token).status(200).send(pick(user, ['_id', 'name', 'email'])); // Success request
   } catch (exc) {
     console.log(exc);
