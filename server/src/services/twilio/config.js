@@ -18,7 +18,8 @@ if (
   || !TWILIO_AUTH_TOKEN || TWILIO_AUTH_TOKEN.length === 0
   || !TWILIO_PHONE || TWILIO_PHONE.length === 0
 ) {
-  throw new Error(404, 'missing TWILIO env vars: TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_PHONE');
+  console.error('FATAL ERROR: TWILIO env vars missing');
+  process.exit(1);
 }
 
 const client = new Twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);

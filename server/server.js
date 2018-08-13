@@ -4,9 +4,15 @@ const path = require('path');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const { ApolloServer } = require('apollo-server-express');
+const Joi = require('joi');
 const schema = require('./src/graphql/exec-schema');
 const initDB = require('./src/init-db');
+const users = require('./src/routes/users');
+const auth = require('./src/routes/auth');
 const events = require('./src/routes/events');
+
+// Extend Joi validator by adding objectId type
+Joi.objectId = require('joi-objectid')(Joi);
 
 //------------------------------------------------------------------------------
 // LOGS
@@ -78,6 +84,8 @@ server.applyMiddleware({ app, path: '/graphql' });
 // ROUTES
 //------------------------------------------------------------------------------
 // TODO: call it /api/... instead
+app.use('/api/users', users);
+app.use('/api/auth', auth);
 app.use('/events', events);
 
 //------------------------------------------------------------------------------
