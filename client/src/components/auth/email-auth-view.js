@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { graphql } from 'react-apollo';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import ErrorHandling from 'error-handling-utils';
+import sendPassCodeMutation from '../../graphql/user/mutation/send-pass-code';
 
 //------------------------------------------------------------------------------
 // COMPONENT:
@@ -14,13 +16,13 @@ class EmailAuthView extends React.Component {
   }
 
   handleChange = ({ target }) => {
-    const field = target.id;
-    const value = target.value;
+    const { id: field, value } = target;
+    const { errors } = this.state;
 
     // Update value and clear errors for the given field
     this.setState({
       [field]: value,
-      errors: ErrorHandling.clearErrors(this.state.errors, field),
+      errors: ErrorHandling.clearErrors(errors, field),
     });
   }
 
@@ -30,7 +32,7 @@ class EmailAuthView extends React.Component {
       email: [],
     };
 
-    const MAX_CHARS = 30;
+    const MAX_CHARS = 155;
 
     // Sanitize input
     const _email = email && email.trim(); // eslint-disable-line no-underscore-dangle
@@ -62,6 +64,7 @@ class EmailAuthView extends React.Component {
       onClientErrorHook,
       onServerErrorHook,
       onSuccessHook,
+      sendPassCode,
     } = this.props;
 
     // Run before logic if provided and return on error
@@ -87,6 +90,13 @@ class EmailAuthView extends React.Component {
       return;
     }
 
+    try {
+      await sendPassCode(email);
+      this.clearFields();
+      onSuccessHook({ email });
+    } catch (exc) {
+      onServerErrorHook(exc);
+    }
     /* Meteor.sendVerificationCode(email, (err) => {
       if (err) {
         onServerErrorHook(err);
@@ -144,6 +154,7 @@ EmailAuthView.propTypes = {
   onClientErrorHook: PropTypes.func,
   onServerErrorHook: PropTypes.func,
   onSuccessHook: PropTypes.func,
+  sendPassCode: PropTypes.func.isRequired,
 };
 
 EmailAuthView.defaultProps = {
@@ -155,4 +166,7 @@ EmailAuthView.defaultProps = {
   onSuccessHook: () => {},
 };
 
-export default EmailAuthView;
+// Apollo integration
+const withMutation = graphql(sendPassCodeMutation, { name: 'sendPassCode' });
+
+export default withMutation(EmailAuthView);

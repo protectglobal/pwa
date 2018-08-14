@@ -10,6 +10,7 @@ const typeDefs = `
   }
 
   type Mutation {
+    sendPassCode(email: String!): Response!
     setPhone(phone: String!): User!
   }
 `;
