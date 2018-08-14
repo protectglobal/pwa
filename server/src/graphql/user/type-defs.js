@@ -6,7 +6,7 @@ const typeDefs = `
   }
 
   type Query {
-    user: User!
+    user: User
   }
 
   type Mutation {

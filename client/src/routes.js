@@ -2,22 +2,23 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { propType } from 'graphql-anywhere';
 import userFragment from './graphql/user/fragment/user';
-import {
-  ScrollToTop,
-  RouteWithProps,
-} from './components/route-wrappers';
-
+import { ScrollToTop, LoggedInRoute } from './components/route-wrappers';
+import LoginPage from './pages/login-page';
 import HomePage from './pages/home-page';
 import NotFoundPage from './pages/not-found-page';
 
+//------------------------------------------------------------------------------
+// COMPONENT:
+//------------------------------------------------------------------------------
 const Routes = props => (
   <ScrollToTop>
     <Switch>
       {/* HOME */}
-      <RouteWithProps
+      <LoggedInRoute
         exact
         path="/"
         component={HomePage}
+        overlay={LoginPage}
         {...props}
       />
       {/* NOT FOUND */}
