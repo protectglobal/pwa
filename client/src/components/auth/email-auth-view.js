@@ -7,7 +7,7 @@ import ErrorHandling from 'error-handling-utils';
 //------------------------------------------------------------------------------
 // COMPONENT:
 //------------------------------------------------------------------------------
-class LoginTokenAuthView extends React.Component {
+class EmailAuthView extends React.Component {
   state = {
     email: '',
     errors: { email: [] },
@@ -137,7 +137,7 @@ class LoginTokenAuthView extends React.Component {
   }
 }
 
-LoginTokenAuthView.propTypes = {
+EmailAuthView.propTypes = {
   btnLabel: PropTypes.string,
   disabled: PropTypes.bool,
   onBeforeHook: PropTypes.func,
@@ -146,7 +146,7 @@ LoginTokenAuthView.propTypes = {
   onSuccessHook: PropTypes.func,
 };
 
-LoginTokenAuthView.defaultProps = {
+EmailAuthView.defaultProps = {
   btnLabel: 'Submit',
   disabled: false,
   onBeforeHook: () => {},
@@ -155,4 +155,4 @@ LoginTokenAuthView.defaultProps = {
   onSuccessHook: () => {},
 };
 
-export default LoginTokenAuthView;
+export default EmailAuthView;

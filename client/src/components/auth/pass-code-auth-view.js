@@ -7,7 +7,7 @@ import ErrorHandling from 'error-handling-utils';
 //------------------------------------------------------------------------------
 // COMPONENT:
 //------------------------------------------------------------------------------
-class LoginAuthView extends React.Component {
+class PassCodeAuthView extends React.Component {
   state = {
     code: '',
     errors: { code: [] },
@@ -135,7 +135,7 @@ class LoginAuthView extends React.Component {
   }
 }
 
-LoginAuthView.propTypes = {
+PassCodeAuthView.propTypes = {
   btnLabel: PropTypes.string,
   disabled: PropTypes.bool,
   onBeforeHook: PropTypes.func,
@@ -144,7 +144,7 @@ LoginAuthView.propTypes = {
   onSuccessHook: PropTypes.func,
 };
 
-LoginAuthView.defaultProps = {
+PassCodeAuthView.defaultProps = {
   btnLabel: 'Submit',
   disabled: false,
   onBeforeHook: () => {},
@@ -153,4 +153,4 @@ LoginAuthView.defaultProps = {
   onSuccessHook: () => {},
 };
 
-export default LoginAuthView;
+export default PassCodeAuthView;

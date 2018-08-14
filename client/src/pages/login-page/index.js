@@ -2,9 +2,9 @@ import React from 'react';
 import { FormProps } from '../../components/render-props';
 // import SEO from '../../components/smart/seo';
 import {
-  LoginAuthView,
-  LoginTokenAuthView,
-  ResendVerificationCode,
+  PassCodeAuthView,
+  EmailAuthView,
+  ResendPassCode,
 } from '../../components/auth';
 import AuthPageLayout from '../../layouts/auth-page';
 import Feedback from '../../components/common/feedback';
@@ -12,13 +12,13 @@ import Feedback from '../../components/common/feedback';
 //------------------------------------------------------------------------------
 // COMPONENT:
 //------------------------------------------------------------------------------
-// After LoginAuthView returns successful, the user logged-in-state will change
+// After PassCodeAuthView returns successful, the user logged-in-state will change
 // from 'logged out' to 'logged in' automatically. This will trigger the
 // LoggedOutRoute component's logic (said component wraps the LoginPage component)
 // which will result in redirecting the user to home page automatically.
 class LoginPage extends React.PureComponent {
   state = {
-    view: 'loginToken',
+    view: 'emailView',
     email: '',
   }
 
@@ -38,11 +38,11 @@ class LoginPage extends React.PureComponent {
           handleSuccess,
         }) => (
           <AuthPageLayout
-            title={view === 'loginToken' ? 'Login' : 'Enter Pass Code'}
-            subtitle={view === 'login' ? 'Haven\'t received the pass code?' : ''}
-            link={view === 'login'
+            title={view === 'emailView' ? 'Login' : 'Enter Pass Code'}
+            subtitle={view === 'passCodeView' ? 'Haven\'t received the pass code?' : ''}
+            link={view === 'passCodeView'
               ? (
-                <ResendVerificationCode
+                <ResendPassCode
                   email={email}
                   label="Resend it"
                   disabled={disabled}
@@ -60,8 +60,8 @@ class LoginPage extends React.PureComponent {
               : null
             }
           >
-            {view === 'loginToken' && (
-              <LoginTokenAuthView
+            {view === 'emailView' && (
+              <EmailAuthView
                 btnLabel="Send Pass Code"
                 disabled={disabled}
                 onBeforeHook={handleBefore}
@@ -73,15 +73,15 @@ class LoginPage extends React.PureComponent {
                     if (obj && obj.email) {
                       // Show success message after action is completed
                       setSuccessMessage('A new email has been sent to your inbox!');
-                      // Switch to login view and store current user's email
-                      this.setState({ view: 'login', email: obj.email });
+                      // Switch to passCodeView view and store current user's email
+                      this.setState({ view: 'passCodeView', email: obj.email });
                     }
                   });
                 }}
               />
             )}
-            {view === 'login' && (
-              <LoginAuthView
+            {view === 'passCodeView' && (
+              <PassCodeAuthView
                 btnLabel="Enter"
                 onBeforeHook={handleBefore}
                 onClientErrorHook={handleClientError}

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 //------------------------------------------------------------------------------
 // COMPONENT:
 //------------------------------------------------------------------------------
-class ResendVerificationCode extends React.PureComponent {
+class ResendPassCode extends React.PureComponent {
   handleClick = async (evt) => {
     evt.preventDefault();
 
@@ -44,7 +44,7 @@ class ResendVerificationCode extends React.PureComponent {
   }
 }
 
-ResendVerificationCode.propTypes = {
+ResendPassCode.propTypes = {
   email: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
@@ -53,11 +53,11 @@ ResendVerificationCode.propTypes = {
   onSuccessHook: PropTypes.func,
 };
 
-ResendVerificationCode.defaultProps = {
+ResendPassCode.defaultProps = {
   disabled: false,
   onBeforeHook: () => {},
   onServerErrorHook: () => {},
   onSuccessHook: () => {},
 };
 
-export default ResendVerificationCode;
+export default ResendPassCode;
