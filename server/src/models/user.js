@@ -21,12 +21,12 @@ const schema = mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  name: {
+  /* name: {
     type: String,
     minlength: MIN_STRING_LENGTH,
     maxlength: MAX_STRING_LENGTH,
     required: [true, 'Name is required'],
-  },
+  }, */
   email: {
     type: String,
     trim: true,
@@ -37,12 +37,12 @@ const schema = mongoose.Schema({
     required: [true, 'Email address is required'],
     validate: [isEmail, 'Please fill a valid email address'],
   },
-  password: {
+  /* password: {
     type: String,
     minlength: MIN_STRING_LENGTH,
     maxlength: MAX_LONG_STRING_LENGTH,
     required: [true, 'Password is required'],
-  },
+  }, */
   phone: {
     type: String,
     minlength: MIN_STRING_LENGTH,

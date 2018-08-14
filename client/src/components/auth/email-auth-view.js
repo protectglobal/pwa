@@ -11,7 +11,7 @@ import sendPassCodeMutation from '../../graphql/user/mutation/send-pass-code';
 //------------------------------------------------------------------------------
 class EmailAuthView extends React.Component {
   state = {
-    email: '',
+    email: 'federodes@gmail.com',
     errors: { email: [] },
   }
 
@@ -39,8 +39,8 @@ class EmailAuthView extends React.Component {
 
     if (!_email) {
       errors.email.push('Email is required!');
-    } else if (!ErrorHandling.isValidEmail(_email)) {
-      errors.email.push('Please, provide a valid email address!');
+    // } else if (!ErrorHandling.isValidEmail(_email)) {
+    //   errors.email.push('Please, provide a valid email address!');
     } else if (_email.length > MAX_CHARS) {
       errors.email.push(`Must be no more than ${MAX_CHARS} characters!`);
     }
@@ -91,7 +91,9 @@ class EmailAuthView extends React.Component {
     }
 
     try {
-      await sendPassCode(email);
+      await sendPassCode({
+        variables: { email },
+      });
       this.clearFields();
       onSuccessHook({ email });
     } catch (exc) {
