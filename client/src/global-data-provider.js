@@ -22,6 +22,8 @@ const GlobalDataProvider = ({ userData, children }) => {
     return <p>{error.message}</p>;
   }
 
+  console.log('user', user);
+
   const api = {
     curUser: user,
   };
@@ -43,6 +45,11 @@ GlobalDataProvider.propTypes = {
 };
 
 // Apollo integration
-const withData = graphql(userQuery, { name: 'userData' });
+const withData = graphql(userQuery, {
+  name: 'userData',
+  /* options: {
+    pollInterval: 1000,
+  }, */
+});
 
 export default withData(GlobalDataProvider);

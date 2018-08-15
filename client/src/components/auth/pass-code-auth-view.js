@@ -9,8 +9,8 @@ import ErrorHandling from 'error-handling-utils';
 //------------------------------------------------------------------------------
 class PassCodeAuthView extends React.Component {
   state = {
-    code: '',
-    errors: { code: [] },
+    passCode: '123456',
+    errors: { passCode: [] },
   }
 
   handleChange = ({ target }) => {
@@ -24,38 +24,39 @@ class PassCodeAuthView extends React.Component {
     });
   }
 
-  validateFields = ({ code }) => {
+  validateFields = ({ passCode }) => {
     // Initialize errors
     const errors = {
-      code: [],
+      passCode: [],
     };
 
     const MAX_CHARS = 30;
 
     // Sanitize input
-    const _code = code && code.trim(); // eslint-disable-line no-underscore-dangle
+    const _passCode = passCode && passCode.trim(); // eslint-disable-line no-underscore-dangle
 
-    if (!_code) {
-      errors.code.push('Code is required!');
-    } else if (_code.length > MAX_CHARS) {
-      errors.code.push(`Must be no more than ${MAX_CHARS} characters!`);
+    if (!_passCode) {
+      errors.passCode.push('Code is required!');
+    } else if (_passCode.length > MAX_CHARS) {
+      errors.passCode.push(`Must be no more than ${MAX_CHARS} characters!`);
     }
 
     return errors;
   }
 
   clearFields = () => {
-    this.setState({ code: '' });
+    this.setState({ passCode: '' });
   }
 
   clearErrors = () => {
-    this.setState({ errors: { code: [] } });
+    this.setState({ errors: { passCode: [] } });
   }
 
   handleSubmit = async (evt) => {
     evt.preventDefault();
 
     const {
+      email,
       onBeforeHook,
       onClientErrorHook,
       onServerErrorHook,
@@ -70,13 +71,13 @@ class PassCodeAuthView extends React.Component {
     }
 
     // Get field values
-    const { code } = this.state;
+    const { passCode } = this.state;
 
     // Clear previous errors if any
     this.clearErrors();
 
     // Validate fields
-    const err1 = this.validateFields({ code });
+    const err1 = this.validateFields({ passCode });
 
     // In case of errors, display on UI and return handler to parent component
     if (ErrorHandling.hasErrors(err1)) {
@@ -85,7 +86,41 @@ class PassCodeAuthView extends React.Component {
       return;
     }
 
-    /* Meteor.loginWithPasswordless({ code }, (err) => {
+    const body = {
+      method: 'post',
+      // TODO: define based on process
+      mode: 'cors', // no-cors, cors, *same-origin
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: 'include', // include, same-origin, *omit
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, passCode }),
+    };
+
+    try {
+      const res = await fetch('/api/login', body);
+      console.log('\nres', res);
+      // const json = await res.body.json();
+      const json = await res.json();
+      console.log('\njson', json);
+      console.log('\nres.headers', res.headers);
+      console.log('\nres.body', res.body);
+      console.log('res.headers.entries()', res.headers.entries());
+      let token = '';
+      for (let pair of res.headers.entries()) {
+        console.log(pair[0]+ ': '+ pair[1]);
+        if (pair[0] === 'x-auth-token') {
+          token = pair[1];
+        }
+      }
+      console.log('\nTOKEN', token);
+      this.clearFields();
+      onSuccessHook({ token });
+    } catch (exc) {
+      console.log(exc);
+      onServerErrorHook(exc);
+    }
+
+    /* Meteor.loginWithPasswordless({ passCode }, (err) => {
       if (err) {
         onServerErrorHook(err);
       } else {
@@ -97,7 +132,7 @@ class PassCodeAuthView extends React.Component {
 
   render() {
     const { btnLabel, disabled } = this.props;
-    const { code, errors } = this.state;
+    const { passCode, errors } = this.state;
 
     return (
       <form
@@ -106,17 +141,17 @@ class PassCodeAuthView extends React.Component {
         autoComplete="off"
       >
         <TextField
-          id="code"
+          id="passCode"
           type="text"
           label="Access Code"
-          value={code}
+          value={passCode}
           onChange={this.handleChange}
           margin="normal"
           fullWidth
-          error={ErrorHandling.getFieldErrors(errors, 'code').length > 0}
+          error={ErrorHandling.getFieldErrors(errors, 'passCode').length > 0}
           helperText={
-            ErrorHandling.getFieldErrors(errors, 'code').length > 0
-              ? ErrorHandling.getFieldErrors(errors, 'code')
+            ErrorHandling.getFieldErrors(errors, 'passCode').length > 0
+              ? ErrorHandling.getFieldErrors(errors, 'passCode')
               : ''
           }
         />
@@ -136,6 +171,7 @@ class PassCodeAuthView extends React.Component {
 }
 
 PassCodeAuthView.propTypes = {
+  email: PropTypes.string.isRequired,
   btnLabel: PropTypes.string,
   disabled: PropTypes.bool,
   onBeforeHook: PropTypes.func,

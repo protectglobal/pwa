@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { withApollo } from 'react-apollo';
 import { FormProps } from '../../components/render-props';
 // import SEO from '../../components/smart/seo';
 import {
@@ -23,6 +25,7 @@ class LoginPage extends React.PureComponent {
   }
 
   render() {
+    const { client } = this.props;
     const { view, email } = this.state;
 
     return (
@@ -82,11 +85,25 @@ class LoginPage extends React.PureComponent {
             )}
             {view === 'passCodeView' && (
               <PassCodeAuthView
+                email={email}
                 btnLabel="Enter"
                 onBeforeHook={handleBefore}
                 onClientErrorHook={handleClientError}
                 onServerErrorHook={handleServerError}
-                onSuccessHook={handleSuccess}
+                onSuccessHook={(obj) => {
+                  // Extend formProps.handleSuccess' default functionality
+                  handleSuccess(() => {
+                    if (obj && obj.token) {
+                      localStorage.setItem('x-auth-token', obj.token);
+                      client.resetStore();
+                      // TODO: store token into browser + resetStore to update client data
+                      // Show success message after action is completed
+                      // setSuccessMessage('A new email has been sent to your inbox!');
+                      // Switch to passCodeView view and store current user's email
+                      // this.setState({ view: 'passCodeView', email: obj.email });
+                    }
+                  });
+                }}
               />
             )}
             <div className="mb2" />
@@ -102,4 +119,10 @@ class LoginPage extends React.PureComponent {
   }
 }
 
-export default LoginPage;
+LoginPage.propTypes = {
+  client: PropTypes.shape({
+    resetStore: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
+export default withApollo(LoginPage);
