@@ -4,6 +4,9 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import ErrorHandling from 'error-handling-utils';
 
+const { NODE_ENV } = process.env;
+const isNotProduction = NODE_ENV !== 'production';
+
 //------------------------------------------------------------------------------
 // COMPONENT:
 //------------------------------------------------------------------------------
@@ -89,7 +92,7 @@ class PassCodeAuthView extends React.Component {
     const data = {
       method: 'post',
       // TODO: define based on process
-      mode: 'cors', // no-cors, cors, *same-origin
+      mode: isNotProduction ? 'cors' : 'same-origin', // no-cors, cors, *same-origin
       cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
       credentials: 'include', // include, same-origin, *omit
       headers: {
