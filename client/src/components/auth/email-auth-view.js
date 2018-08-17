@@ -11,7 +11,7 @@ import sendPassCodeMutation from '../../graphql/user/mutation/send-pass-code';
 //------------------------------------------------------------------------------
 class EmailAuthView extends React.Component {
   state = {
-    email: 'federodes@gmail.com',
+    email: '',
     errors: { email: [] },
   }
 
@@ -94,21 +94,12 @@ class EmailAuthView extends React.Component {
       const res = await sendPassCode({
         variables: { email },
       });
-      console.log('res', res);
       this.clearFields();
       onSuccessHook({ email });
     } catch (exc) {
       console.log(exc);
       onServerErrorHook(exc);
     }
-    /* Meteor.sendVerificationCode(email, (err) => {
-      if (err) {
-        onServerErrorHook(err);
-      } else {
-        this.clearFields();
-        onSuccessHook({ email });
-      }
-    }); */
   }
 
   render() {
