@@ -4,6 +4,7 @@ import { graphql } from 'react-apollo';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import ErrorHandling from 'error-handling-utils';
+import isEmail from 'validator/lib/isEmail';
 import sendPassCodeMutation from '../../graphql/user/mutation/send-pass-code';
 
 //------------------------------------------------------------------------------
@@ -39,8 +40,8 @@ class EmailAuthView extends React.Component {
 
     if (!_email) {
       errors.email.push('Email is required!');
-    // } else if (!ErrorHandling.isValidEmail(_email)) {
-    //   errors.email.push('Please, provide a valid email address!');
+    } else if (!isEmail(_email)) {
+      errors.email.push('Please, provide a valid email address!');
     } else if (_email.length > MAX_CHARS) {
       errors.email.push(`Must be no more than ${MAX_CHARS} characters!`);
     }

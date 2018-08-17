@@ -33,15 +33,15 @@ class PassCodeAuthView extends React.Component {
       passCode: [],
     };
 
-    const MAX_CHARS = 30;
+    const PASS_CODE_LENGTH = 6;
 
     // Sanitize input
     const _passCode = passCode && passCode.trim(); // eslint-disable-line no-underscore-dangle
 
     if (!_passCode) {
       errors.passCode.push('Code is required!');
-    } else if (_passCode.length > MAX_CHARS) {
-      errors.passCode.push(`Must be no more than ${MAX_CHARS} characters!`);
+    } else if (_passCode.length !== PASS_CODE_LENGTH) {
+      errors.passCode.push(`Pass code length must be ${PASS_CODE_LENGTH} characters long`);
     }
 
     return errors;
@@ -155,7 +155,7 @@ class PassCodeAuthView extends React.Component {
         <TextField
           id="passCode"
           type="text"
-          label="Access Code"
+          label="Pass Code"
           value={passCode}
           onChange={this.handleChange}
           margin="normal"
