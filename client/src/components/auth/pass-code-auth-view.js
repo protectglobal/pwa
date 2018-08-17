@@ -4,6 +4,9 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import ErrorHandling from 'error-handling-utils';
 
+const { NODE_ENV } = process.env;
+const isNotProduction = NODE_ENV !== 'production';
+
 //------------------------------------------------------------------------------
 // COMPONENT:
 //------------------------------------------------------------------------------
@@ -30,15 +33,15 @@ class PassCodeAuthView extends React.Component {
       passCode: [],
     };
 
-    const MAX_CHARS = 30;
+    const PASS_CODE_LENGTH = 6;
 
     // Sanitize input
     const _passCode = passCode && passCode.trim(); // eslint-disable-line no-underscore-dangle
 
     if (!_passCode) {
       errors.passCode.push('Code is required!');
-    } else if (_passCode.length > MAX_CHARS) {
-      errors.passCode.push(`Must be no more than ${MAX_CHARS} characters!`);
+    } else if (_passCode.length !== PASS_CODE_LENGTH) {
+      errors.passCode.push(`Pass code length must be ${PASS_CODE_LENGTH} characters long`);
     }
 
     return errors;
@@ -89,7 +92,7 @@ class PassCodeAuthView extends React.Component {
     const data = {
       method: 'post',
       // TODO: define based on process
-      mode: 'cors', // no-cors, cors, *same-origin
+      mode: isNotProduction ? 'cors' : 'same-origin', // no-cors, cors, *same-origin
       cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
       credentials: 'include', // include, same-origin, *omit
       headers: {
@@ -152,7 +155,7 @@ class PassCodeAuthView extends React.Component {
         <TextField
           id="passCode"
           type="text"
-          label="Access Code"
+          label="Pass Code"
           value={passCode}
           onChange={this.handleChange}
           margin="normal"
