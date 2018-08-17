@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { graphql } from 'react-apollo';
+import sendPassCodeMutation from '../../graphql/user/mutation/send-pass-code';
 
 //------------------------------------------------------------------------------
 // COMPONENT:
@@ -13,6 +15,7 @@ class ResendPassCode extends React.PureComponent {
       onBeforeHook,
       onServerErrorHook,
       onSuccessHook,
+      sendPassCode,
     } = this.props;
 
     // Run before logic if provided and return on error
@@ -22,13 +25,14 @@ class ResendPassCode extends React.PureComponent {
       return; // return silently
     }
 
-    /* Meteor.sendVerificationCode(email, (err) => {
-      if (err) {
-        onServerErrorHook(err);
-      } else {
-        onSuccessHook({ email });
-      }
-    }); */
+    try {
+      await sendPassCode({ variables: { email } });
+      this.clearFields();
+      onSuccessHook();
+    } catch (exc) {
+      console.log(exc);
+      onServerErrorHook(exc);
+    }
   }
 
   render() {
@@ -51,6 +55,7 @@ ResendPassCode.propTypes = {
   onBeforeHook: PropTypes.func,
   onServerErrorHook: PropTypes.func,
   onSuccessHook: PropTypes.func,
+  sendPassCode: PropTypes.func.isRequired,
 };
 
 ResendPassCode.defaultProps = {
@@ -60,4 +65,8 @@ ResendPassCode.defaultProps = {
   onSuccessHook: () => {},
 };
 
-export default ResendPassCode;
+// Apollo integration
+const withMutation = graphql(sendPassCodeMutation, { name: 'sendPassCode' });
+
+export default withMutation(ResendPassCode);
+
