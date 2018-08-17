@@ -7,6 +7,7 @@
   },
   "rules": {
     "no-console": "off",
+    "func-names": ["error", "never"],
     "no-underscore-dangle": [
       "error",
       {

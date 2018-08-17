@@ -3,7 +3,8 @@ const request = require('request-promise-native');
 const { VFC_URL } = process.env;
 
 if (!VFC_URL || VFC_URL.trim().length === 0) {
-  throw new Error(404, 'missing VFC_URL');
+  console.error('FATAL ERROR: VFC_URL env var missing');
+  process.exit(1);
 }
 
 const postEvent = async (root, args) => {
