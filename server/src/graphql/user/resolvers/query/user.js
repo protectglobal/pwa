@@ -2,7 +2,7 @@ const { User } = require('../../../../models');
 
 const user = async (root, args, context) => {
   console.log('\n\nCONTEXT', context);
-  const { _id } = context;
+  const { user: { _id } } = context;
 
   // Query current logged in user
   try {

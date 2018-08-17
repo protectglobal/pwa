@@ -78,34 +78,27 @@ app.use(staticFiles);
 //------------------------------------------------------------------------------
 // APOLLO SERVER
 //------------------------------------------------------------------------------
-const getMe = async (req) => {
-  const token = (
-    req
-    && req.headers
-    && req.headers.authorization
-  );
+const getUser = async (req) => {
+  const token = req && req.headers && req.headers.authorization;
 
-  if (token) {
-    try {
-      return await jwt.verify(token, JWT_PRIVATE_KEY);
-    } catch (exc) {
-      throw new Error(401, 'Not authorized');
-    }
+  if (!token) {
+    return null;
   }
-  return null;
+
+  try {
+    const json = await jwt.verify(token, JWT_PRIVATE_KEY);
+    return pick(json, '_id');
+  } catch (exc) {
+    console.error('Not authorized');
+    return null;
+  }
 };
 
 const server = new ApolloServer({
   schema,
-  context: async ({ req }) => {
-    // console.log('req.headers', (req && req.headers) || '');
-    if (req) {
-      const me = await getMe(req);
-      return pick(me, '_id');
-    }
-    return null;
-    // return { ... };
-  },
+  context: async ({ req }) => ({
+    user: await getUser(req),
+  }),
   playground: {
     settings: {
       'editor.theme': 'light',
