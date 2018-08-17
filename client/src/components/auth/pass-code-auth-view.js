@@ -86,22 +86,31 @@ class PassCodeAuthView extends React.Component {
       return;
     }
 
-    const body = {
+    const data = {
       method: 'post',
       // TODO: define based on process
       mode: 'cors', // no-cors, cors, *same-origin
       cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
       credentials: 'include', // include, same-origin, *omit
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({ email, passCode }),
     };
 
     try {
-      const res = await fetch('/api/login', body);
+      const res = await fetch('/api/login', data);
       console.log('\nres', res);
+      if (res.status !== 200) {
+        const resText = await res.text();
+        console.log('resText', resText);
+        onServerErrorHook({ message: resText });
+        return;
+      }
       // const json = await res.body.json();
-      const json = await res.json();
-      console.log('\njson', json);
+      
+      // console.log('\njson', json);
       console.log('\nres.headers', res.headers);
       console.log('\nres.body', res.body);
       console.log('res.headers.entries()', res.headers.entries());

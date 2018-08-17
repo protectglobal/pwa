@@ -2,11 +2,15 @@ const { User } = require('../../../../models');
 
 const user = async (root, args, context) => {
   console.log('\n\nCONTEXT', context);
-  const { user: { _id } } = context;
+  const { user: usr } = context;
+
+  if (!usr || !usr._id) {
+    return null;
+  }
 
   // Query current logged in user
   try {
-    const curUser = await User.findOne({ _id }).exec();
+    const curUser = await User.findOne({ _id: usr._id }).exec();
     console.log('curUser', curUser);
     return curUser;
   } catch (exc) {

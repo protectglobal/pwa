@@ -1,21 +1,17 @@
 const express = require('express');
 const pick = require('lodash/pick');
-const bcrypt = require('bcrypt');
-const { User, validateLogin } = require('../models');
+const { User, validateLogin, PassCode } = require('../models');
 
 const router = express.Router();
 
 router.post('/', async (req, res) => {
   const data = req.body;
-  console.log('req', Object.keys(req));
-  console.log('req.query', req.query);
-  console.log('req.body', req.body);
+  console.log('data', data);
   const credentials = pick(data, ['email', 'passCode']);
-  console.log('credentials', credentials);
 
   const { error } = validateLogin(credentials);
   if (error) {
-    console.log(error);
+    console.error(error);
     res.status(400).send(error.details[0].message); // Bad request
     return;
   }
@@ -27,10 +23,13 @@ router.post('/', async (req, res) => {
     return;
   }
 
-  // Check passCode (bcrypt gets the salt included in user.passCode and use it to
-  // hash credentials.passCode)
-  // const isValidPassCode = await bcrypt.compare(credentials.passCode, user.passCode);
-  const isValidPassCode = credentials.passCode === '123456';
+  // Check passCode
+  const record = await PassCode.findOne({ email: credentials.email }).exec();
+  console.log('record', record);
+  console.log('credentials.passCode', credentials.passCode);
+  console.log('typeof credentials.passCode', typeof credentials.passCode);
+  const isValidPassCode = record && parseInt(credentials.passCode, 10) === record.passCode;
+  console.log('isValidPassCode', isValidPassCode.toString());
   if (!isValidPassCode) {
     res.status(400).send('Invalid email or passcode'); // Bad request
     return;

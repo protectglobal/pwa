@@ -80,6 +80,8 @@ app.use(staticFiles);
 //------------------------------------------------------------------------------
 const getUser = async (req) => {
   const token = req && req.headers && req.headers.authorization;
+  // console.log('req.headers', req && req.headers);
+  // console.log('req.headers', req && req.headers && req.headers.authorization);
 
   if (!token) {
     return null;

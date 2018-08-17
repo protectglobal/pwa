@@ -91,12 +91,14 @@ class EmailAuthView extends React.Component {
     }
 
     try {
-      await sendPassCode({
+      const res = await sendPassCode({
         variables: { email },
       });
+      console.log('res', res);
       this.clearFields();
       onSuccessHook({ email });
     } catch (exc) {
+      console.log(exc);
       onServerErrorHook(exc);
     }
     /* Meteor.sendVerificationCode(email, (err) => {

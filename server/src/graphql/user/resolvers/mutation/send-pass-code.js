@@ -1,5 +1,5 @@
 const nodemailer = require('nodemailer');
-const { User } = require('../../../../models');
+const { User, PassCode, genPassCode } = require('../../../../models');
 
 const {
   SMTP_HOST,
@@ -28,7 +28,19 @@ const transporter = nodemailer.createTransport({
     pass: SMTP_PASSWORD,
   },
 });
+//------------------------------------------------------------------------------
+// AUX FUNCTIONS:
+//------------------------------------------------------------------------------
+const getText = ({ passCode }) => (`
+Hello,
 
+Your verification code is ${passCode}.
+
+Thanks.
+`);
+//------------------------------------------------------------------------------
+// MUTATION:
+//------------------------------------------------------------------------------
 const sendPassCode = async (root, args) => {
   const { email } = args;
 
@@ -46,17 +58,28 @@ const sendPassCode = async (root, args) => {
     }
   }
 
-  // TODO: genearte passCode and store it in DB
+  // Genearte a 6-digit pass code and store it into DB
+  const passCode = genPassCode(6);
+  console.log('passCode', passCode);
 
-  // TODO: send passCode to user
+  try {
+    const record = await PassCode.findOneAndUpdate(
+      { email },
+      { $set: { passCode } },
+      { upsert: true, new: true },
+    );
+    console.log('record', record);
+  } catch (exc) {
+    console.error(exc);
+  }
 
-  // Setup email data with unicode symbols
+  // Send pass code to user
   const mailOptions = {
-    from: '"Fred Foo 👻" <foo@example.com>', // sender address
+    from: 'email@example.com', // sender address
     to: email, // list of receivers
-    subject: 'Hello ✔', // Subject line
-    text: 'Hello world?', // plain text body
-    html: '<b>Hello world?</b>', // html body
+    subject: `Your pass code is ${passCode} for <siteName>`, // Subject line
+    text: getText({ passCode }), // plain text body
+    // html: '<b>Hello world?</b>', // html body
   };
 
   // Send mail with defined transport object
@@ -69,7 +92,7 @@ const sendPassCode = async (root, args) => {
     // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
     // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
   } catch (exc) {
-    console.log(exc);
+    console.error('ERROR DELIVERYING EMAIL', exc);
     return { status: 500 };
   }
 };
