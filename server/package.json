@@ -12,6 +12,7 @@
   "dependencies": {
     "apollo-server-express": "^2.0.0",
     "babel-cli": "^6.26.0",
+    "bcrypt": "^3.0.0",
     "casual": "^1.5.19",
     "cors": "^2.8.4",
     "dotenv": "^6.0.0",
@@ -19,12 +20,18 @@
     "graphql": "^0.13.2",
     "graphql-tools": "^3.0.5",
     "helmet": "^3.13.0",
+    "joi": "^13.6.0",
+    "joi-objectid": "^2.0.0",
+    "joi-password-complexity": "^2.0.1",
+    "jsonwebtoken": "^8.3.0",
     "lodash": "^4.17.10",
     "merge-graphql-schemas": "^1.5.3",
     "mongoose": "^5.2.5",
+    "nodemailer": "^4.6.7",
     "request": "^2.87.0",
     "request-promise-native": "^1.0.5",
-    "twilio": "^3.18.0"
+    "twilio": "^3.18.0",
+    "validator": "^10.5.0"
   },
   "devDependencies": {
     "eslint": "^4.19.1",
