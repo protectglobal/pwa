@@ -9,7 +9,7 @@ import ErrorHandling from 'error-handling-utils';
 //------------------------------------------------------------------------------
 class PassCodeAuthView extends React.Component {
   state = {
-    passCode: '123456',
+    passCode: '',
     errors: { passCode: [] },
   }
 
