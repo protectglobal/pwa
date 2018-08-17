@@ -91,9 +91,7 @@ class EmailAuthView extends React.Component {
     }
 
     try {
-      const res = await sendPassCode({
-        variables: { email },
-      });
+      await sendPassCode({ variables: { email } });
       this.clearFields();
       onSuccessHook({ email });
     } catch (exc) {
@@ -105,6 +103,8 @@ class EmailAuthView extends React.Component {
   render() {
     const { btnLabel, disabled } = this.props;
     const { email, errors } = this.state;
+
+    const emailErrors = ErrorHandling.getFieldErrors(errors, 'email');
 
     return (
       <form
@@ -120,12 +120,8 @@ class EmailAuthView extends React.Component {
           onChange={this.handleChange}
           margin="normal"
           fullWidth
-          error={ErrorHandling.getFieldErrors(errors, 'email').length > 0}
-          helperText={
-            ErrorHandling.getFieldErrors(errors, 'email').length > 0
-              ? ErrorHandling.getFieldErrors(errors, 'email')
-              : ''
-          }
+          error={emailErrors.length > 0}
+          helperText={emailErrors || ''}
         />
         <div className="mb2" />
         <Button
