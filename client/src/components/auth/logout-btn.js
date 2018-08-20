@@ -7,7 +7,13 @@ import ButtonLink from '../common/button-link';
 //------------------------------------------------------------------------------
 // COMPONENT:
 //------------------------------------------------------------------------------
-const LogoutBtn = ({ client, btnType, disabled, onLogoutHook }) => {
+const LogoutBtn = ({
+  client,
+  btnType,
+  disabled,
+  underline,
+  onLogoutHook,
+}) => {
   // Logout user and clear store afterwards
   const handleLogout = (evt) => {
     if (evt) { evt.preventDefault(); }
@@ -24,6 +30,7 @@ const LogoutBtn = ({ client, btnType, disabled, onLogoutHook }) => {
   return (
     <ButtonComp
       disabled={disabled}
+      underline={underline}
       onClick={handleLogout}
     >
       Log out
@@ -37,12 +44,14 @@ LogoutBtn.propTypes = {
   }).isRequired,
   btnType: PropTypes.oneOf(['button', 'link']),
   disabled: PropTypes.bool,
+  underline: PropTypes.bool,
   onLogoutHook: PropTypes.func,
 };
 
 LogoutBtn.defaultProps = {
   btnType: 'button',
   disabled: false,
+  underline: true,
   onLogoutHook: () => {},
 };
 

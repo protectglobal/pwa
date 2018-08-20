@@ -8,34 +8,35 @@ import styled from 'styled-components';
 const Button = styled.button`
   /* reset button style */
   background: none !important;
-  color: inherit;
   border: none; 
   padding: 0 !important;
-  font: inherit;
+  font: 'inherit';
+  text-decoration: ${({ disabled, underline }) => (disabled === false && underline && 'underline') || 'none'};
   color: ${({ disabled, theme }) => (disabled === false && theme.color.link)
   || 'inherit'};
-  border-bottom: ${({ disabled, theme }) => (disabled === false && `1px solid ${theme.color.link}`)
-  || 'none'};
   cursor: ${({ disabled }) => (disabled === false && 'pointer')
   || 'not-allowed'};
 `;
 
 Button.propTypes = {
-  disabled: PropTypes.bool,
   type: PropTypes.oneOf(['button']).isRequired,
-};
-
-Button.defaultProps = {
-  disabled: false,
+  disabled: PropTypes.bool.isRequired,
+  underline: PropTypes.bool.isRequired,
 };
 
 //------------------------------------------------------------------------------
 // COMPONENT:
 //------------------------------------------------------------------------------
-const ButtonLink = ({ children, disabled, ...rest }) => (
+const ButtonLink = ({
+  children,
+  disabled,
+  underline,
+  ...rest
+}) => (
   <Button
     type="button"
     disabled={disabled}
+    underline={underline}
     {...rest}
   >
     {children}
@@ -48,10 +49,12 @@ ButtonLink.propTypes = {
     PropTypes.string,
   ]).isRequired,
   disabled: PropTypes.bool,
+  underline: PropTypes.bool,
 };
 
 ButtonLink.defaultProps = {
   disabled: false,
+  underline: true,
 };
 
 export default ButtonLink;

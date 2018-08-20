@@ -23,24 +23,27 @@ const Menu = ({ curUser }) => {
   )); */
 
   // Display menu routes plus logout button
-  return [
-    routes.map(({ path, label }) => (
-      <li key={path}>
-        <Link
-          to={path}
-          onClick={window.hideMenu}
-        >
-          {label}
-        </Link>
+  return (
+    <React.Fragment>
+      {routes.map(({ path, label }) => (
+        <li key={path}>
+          <Link
+            to={path}
+            onClick={window.hideMenu}
+          >
+            {label}
+          </Link>
+        </li>
+      ))}
+      <li>
+        <LogoutBtn
+          btnType="link"
+          underline={false}
+          onLogoutHook={window.hideMenu}
+        />
       </li>
-    )),
-    <li key="logout">
-      <LogoutBtn
-        btnType="link"
-        onLogoutHook={window.hideMenu}
-      />
-    </li>,
-  ];
+    </React.Fragment>
+  );
 };
 
 Menu.propTypes = {
