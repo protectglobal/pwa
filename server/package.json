@@ -32,7 +32,8 @@
     "request": "^2.87.0",
     "request-promise-native": "^1.0.5",
     "twilio": "^3.18.0",
-    "validator": "^10.5.0"
+    "validator": "^10.5.0",
+    "web-push": "^3.3.2"
   },
   "devDependencies": {
     "eslint": "^4.19.1",

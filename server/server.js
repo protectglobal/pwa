@@ -105,7 +105,7 @@ const getUser = async (req) => {
 const server = new ApolloServer({
   schema,
   context: async ({ req }) => ({
-    user: await getUser(req),
+    usr: await getUser(req),
   }),
   playground: {
     settings: {
