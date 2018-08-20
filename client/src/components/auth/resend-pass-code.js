@@ -70,4 +70,3 @@ ResendPassCode.defaultProps = {
 const withMutation = graphql(sendPassCodeMutation, { name: 'sendPassCode' });
 
 export default withMutation(ResendPassCode);
-
