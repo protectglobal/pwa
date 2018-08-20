@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withApollo } from 'react-apollo';
-import { FormProps } from '../../components/render-props';
+import { FormProps } from '../../render-props';
+// import { FormProps } from 'react-state-helpers-via-render-props';
 // import SEO from '../../components/smart/seo';
 import {
   PassCodeAuthView,

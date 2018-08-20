@@ -29,6 +29,7 @@
     "react-dom": "^16.4.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.0",
+    "react-state-helpers-via-render-props": "^1.0.2",
     "styled-components": "^3.3.3",
     "unfetch": "^3.1.0",
     "validator": "^10.6.0"

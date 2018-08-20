@@ -21,7 +21,13 @@ Joi.objectId = require('joi-objectid')(Joi);
 // LOGS
 //------------------------------------------------------------------------------
 // Log env vars
-const { NODE_ENV, PORT, MONGO_URL, JWT_PRIVATE_KEY } = process.env;
+const {
+  NODE_ENV,
+  PORT,
+  MONGO_URL,
+  JWT_PRIVATE_KEY,
+} = process.env;
+
 const isNotProduction = NODE_ENV !== 'production';
 
 console.log(

@@ -45,11 +45,6 @@ GlobalDataProvider.propTypes = {
 };
 
 // Apollo integration
-const withData = graphql(userQuery, {
-  name: 'userData',
-  /* options: {
-    pollInterval: 1000,
-  }, */
-});
+const withData = graphql(userQuery, { name: 'userData' });
 
 export default withData(GlobalDataProvider);
