@@ -1,4 +1,4 @@
-import { Subscription } from '../../../../models';
+const { Subscription } = require('../../../../models');
 // import utils from '../../utils';
 
 //------------------------------------------------------------------------------
@@ -7,6 +7,7 @@ import { Subscription } from '../../../../models';
 */
 const saveSubscription = async (root, args, context) => {
   const { subscription } = args;
+  const { endpoint, keys } = subscription;
   const { usr } = context;
 
   // TODO: use middleware
@@ -14,7 +15,9 @@ const saveSubscription = async (root, args, context) => {
 
   const subs = new Subscription({
     userId: usr._id,
-    ...subscription,
+    // ...subscription,
+    endpoint,
+    keys,
   });
 
   try {
@@ -27,4 +30,4 @@ const saveSubscription = async (root, args, context) => {
 };
 //------------------------------------------------------------------------------
 
-export default saveSubscription;
+module.exports = saveSubscription;

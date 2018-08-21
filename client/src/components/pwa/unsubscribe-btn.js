@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { graphql } from 'react-apollo';
-import Button from 'material-ui/Button';
-import userQuery from '../../../apollo-client/user/query/user';
-import deleteSubscriptionMutation from '../../../apollo-client/user/mutation/delete-subscription';
+import Button from '@material-ui/core/Button';
+import userQuery from '../../graphql/user/query/user';
+import deleteSubscriptionMutation from '../../graphql/subscription/mutation/delete-subscription';
 
 //------------------------------------------------------------------------------
 // COMPONENT:

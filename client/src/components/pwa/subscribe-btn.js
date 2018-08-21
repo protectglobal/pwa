@@ -1,12 +1,17 @@
-import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { graphql } from 'react-apollo';
-import Button from 'material-ui/Button';
-import userQuery from '../../../apollo-client/user/query/user';
-import saveSubscriptionMutation from '../../../apollo-client/user/mutation/save-subscription';
+import Button from '@material-ui/core/Button';
+import userQuery from '../../graphql/user/query/user';
+import saveSubscriptionMutation from '../../graphql/subscription/mutation/save-subscription';
 
-const { publicKey: vapidPublicKey } = Meteor.settings.public.vapid;
+// const { publicKey: vapidPublicKey } = Meteor.settings.public.vapid;
+
+const { REACT_APP_VAPID_PUBLIC_KEY } = process.env;
+
+if (!REACT_APP_VAPID_PUBLIC_KEY || REACT_APP_VAPID_PUBLIC_KEY.length === 0) {
+  throw new Error('FATAL ERROR: REACT_APP_VAPID_PUBLIC_KEY env var missing');
+}
 
 //------------------------------------------------------------------------------
 // AUX FUNCTIONS:
@@ -57,7 +62,7 @@ class SubscribeBtn extends React.PureComponent {
       // Register subscription
       subscription = await registration.pushManager.subscribe({
         userVisibleOnly: true, // always show notification when received
-        applicationServerKey: urlBase64ToUint8Array(vapidPublicKey),
+        applicationServerKey: urlBase64ToUint8Array(REACT_APP_VAPID_PUBLIC_KEY),
       });
     } catch (exc) {
       if (Notification.permission === 'denied') {
@@ -93,7 +98,7 @@ class SubscribeBtn extends React.PureComponent {
       // at a later date.
       await saveSubscription({
         variables: { subscription: encSubscription },
-        refetchQueries: [{ query: userQuery }],
+        // refetchQueries: [{ query: userQuery }],
       });
 
       onSuccessHook();

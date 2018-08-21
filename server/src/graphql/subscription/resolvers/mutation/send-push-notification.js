@@ -1,7 +1,7 @@
-import webPush from 'web-push';
-import { Subscription } from '../../../../models';
+const webPush = require('web-push');
+const { Subscription } = require('../../../../models');
 // import utils from '../../utils';
-import deleteSubscription from './delete-subscription';
+const deleteSubscription = require('./delete-subscription');
 
 const {
   GCM_PRIVATE_KEY,
@@ -9,6 +9,8 @@ const {
   VAPID_PUBLIC_KEY,
   VAPID_PRIVATE_KEY,
 } = process.env;
+
+console.log('process.env', process.env);
 
 if (!GCM_PRIVATE_KEY || GCM_PRIVATE_KEY.length === 0) {
   console.error('FATAL ERROR: GCM_PRIVATE_KEY env var missing');
@@ -20,7 +22,7 @@ if (
   || !VAPID_PUBLIC_KEY || VAPID_PUBLIC_KEY.length === 0
   || !VAPID_PRIVATE_KEY || VAPID_PRIVATE_KEY.length === 0
 ) {
-  console.error('FATAL ERROR: VAPID_PRIVATE_KEY envs var missing');
+  console.error('FATAL ERROR: VAPID envs var missing');
   process.exit(1);
 }
 
@@ -61,21 +63,24 @@ const sendPushNotification = async (root, args, context) => {
   } catch (exc) {
     return { status: 500 };
   }
+  console.log('\nsubscriptions', subscriptions);
 
   // Actually send the messages
   // TODO: use promise.all and then return { status: 200 }
+  // TODO: use try-catch
   subscriptions.forEach((subscription) => {
     webPush.sendNotification(subscription, payload, options)
-      .then(() => {})
+      .then(() => {
+        console.log('NOTIFICATION DELIVERED SUCCESSFULLY!');
+        return { status: 200 };
+      })
       .catch((err) => {
-        console.log(`Error when trying to deliver message for ${subscription.endpoint}`, err);
+        console.log(`\nError when trying to deliver message for ${subscription.endpoint}`, err);
         // This is probably an old subscription, remove it
-        deleteSubscription(null, { endpoint: subscription.endpoint }, { userId: usr._id });
+        deleteSubscription(null, { endpoint: subscription.endpoint }, { usr });
       });
   });
-
-  return { status: 200 };
 };
 //------------------------------------------------------------------------------
 
-export default sendPushNotification;
+module.exports = sendPushNotification;

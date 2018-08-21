@@ -1,4 +1,4 @@
-import { Subscription } from '../../../../models';
+const { Subscription } = require('../../../../models');
 // import utils from '../../utils';
 
 // TODO: use try-catch or find a lib that implements this
@@ -23,4 +23,4 @@ const deleteSubscription = async (root, args, context) => {
 };
 //------------------------------------------------------------------------------
 
-export default deleteSubscription;
+module.exports = deleteSubscription;

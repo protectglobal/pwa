@@ -2,7 +2,7 @@ const { Event } = require('../../../../models');
 
 const clearEvents = async () => {
   try {
-    await Event.remove({});
+    await Event.deleteMany({});
     return { status: 200 };
   } catch (exc) {
     console.log(exc);
