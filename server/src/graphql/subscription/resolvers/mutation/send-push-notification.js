@@ -36,6 +36,7 @@ if (
 */
 const sendPushNotification = async (root, args, context) => {
   const { usr } = context;
+  console.log('\nSend push notification');
 
   // TODO: use middleware
   // Users.utils.checkLoggedInAndVerified(userId);
