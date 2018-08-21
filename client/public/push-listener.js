@@ -9,8 +9,8 @@ function showNotification (event) {
   var options = {
     body: event.data && event.data.text() ? event.data.text() : 'Push message no payload',
     tag: 'demo',
-    icon: '/images/apple-touch-icon.png',
-    badge: '/images/apple-touch-icon.png',
+    icon: '/img/apple-touch-icon.png',
+    badge: '/img/apple-touch-icon.png',
     // Custom actions buttons
     /* actions: [
       { action: 'yes', title: 'I ♥ this app!' },

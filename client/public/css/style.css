@@ -170,7 +170,7 @@ form {
 
 .menu__list li a:active,
 .menu__list li a:hover {
-  background: #e7e7e7;
+  text-decoration: none;
 }
 
 .app__outer {
