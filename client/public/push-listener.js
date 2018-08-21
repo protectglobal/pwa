@@ -12,58 +12,16 @@ function showNotification (event) {
     icon: '/images/apple-touch-icon.png',
     badge: '/images/apple-touch-icon.png',
     // Custom actions buttons
-    actions: [
+    /* actions: [
       { action: 'yes', title: 'I ♥ this app!' },
       { action: 'no', title: 'I don\'t like this app' },
-    ],
+    ], */
   };
 
   event.waitUntil(
     self.registration.showNotification(title, options),
   );
 };
-
-self.addEventListener('push', function(event) {
-  console.log('[Service Worker] Push Received.');
-  console.log('[Service Worker] Push had this data:', event && event.data);
-
-  // Comment out the following line in case you only want to display
-  // notifications when the app isn't open
-  showNotification(event);
-
-  self.clients.matchAll()
-    .then((client) => {
-      if (client.length === 0) {
-        // Un-comment the following line in case you only want to display
-        // notifications when the app isn't open
-        // showNotification(event);
-      } else {
-        // Send a message to the page to update the UI
-        console.log('Application is already open!');
-      }
-    });
-});
-
-
-  /* var setOfExpectedUrls = new Set(urlsToCacheKeys.values());
-
-  event.waitUntil(
-    caches.open(cacheName).then(function(cache) {
-      return cache.keys().then(function(existingRequests) {
-        return Promise.all(
-          existingRequests.map(function(existingRequest) {
-            if (!setOfExpectedUrls.has(existingRequest.url)) {
-              return cache.delete(existingRequest);
-            }
-          })
-        );
-      });
-    }).then(function() {
-      <% if (clientsClaim) { %>
-      return self.clients.claim();
-      <% } %>
-    })
-  ); */
 
 // When to Show Notifications:
 // If the user is already using your application there is no need to display a
@@ -76,23 +34,68 @@ self.addEventListener('push', function(event) {
 // windows. The best practice is to relay the message to each of those windows.
 // Source: https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications
 // Source: https://developers.google.com/web/fundamentals/codelabs/push-notifications/
-/* self.addEventListener('push', (evt) => {
+self.addEventListener('push', function(event) {
   console.log('[Service Worker] Push Received.');
-  console.log(`[Service Worker] Push had this data: "${evt && evt.data}"`);
+  console.log('[Service Worker] Push had this data:', event && event.data);
 
   // Comment out the following line in case you only want to display
   // notifications when the app isn't open
-  showNotification(evt);
+  showNotification(event);
 
   clients.matchAll()
     .then((client) => {
       if (client.length === 0) {
         // Un-comment the following line in case you only want to display
         // notifications when the app isn't open
-        // showNotification(evt);
+        // showNotification(event);
       } else {
         // Send a message to the page to update the UI
         console.log('Application is already open!');
       }
     });
-}); */
+});
+
+// The code below looks for the first window with 'visibilityState' set to
+// 'visible'. If one is found it navigates that client to the correct URL and
+// focuses the window. If a window that suits our needs is not found, it
+// opens a new window.
+// Source: https://developers.google.com/web/fundamentals/codelabs/push-notifications/
+// Source: https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications
+self.addEventListener('notificationclick', function (event) {
+  console.log('[Service Worker] Notification click Received.');
+
+  var appUrl = new URL('/', location).href;
+
+  // Listen to custom action buttons in push notification
+  /* if (event.action === 'yes') {
+    console.log('I ♥ this app!');
+  } else if (event.action === 'no') {
+    console.log('I don\'t like this app');
+  } */
+
+  event.waitUntil(
+    clients.matchAll()
+      .then((clientsList) => {
+        var client = clientsList.find(function(c) {
+          return c.visibilityState === 'visible';
+        });
+
+        if (client !== undefined) {
+          client.navigate(appUrl);
+          client.focus();
+        } else {
+          // There are no visible windows. Open one.
+          clients.openWindow(appUrl);
+        }
+      })
+    ,
+  );
+
+  // Close all notifications (thisincludes any other notifications from the
+  // same origin)
+  // Source: https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications
+  self.registration.getNotifications()
+    .then(function (notifications) {
+      notifications.forEach(function (notification) { notification.close(); });
+    });
+});
