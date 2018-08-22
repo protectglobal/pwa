@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import ErrorHandling from 'error-handling-utils';
 import isEmail from 'validator/lib/isEmail';
-import sendPassCodeMutation from '../../graphql/user/mutation/send-pass-code';
+import sendPassCodeMutation from '../../graphql/pass-code/mutation/send-pass-code';
 
 //------------------------------------------------------------------------------
 // COMPONENT:

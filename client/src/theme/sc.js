@@ -13,6 +13,9 @@ const theme = {
     small: '14px',
     normal: '16px',
   },
+  backgorund: {
+    color: '#236caf',
+  },
 };
 
 export default theme;

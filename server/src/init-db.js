@@ -2,8 +2,8 @@ const { User, Event } = require('./models');
 
 // Clear DB
 const clearAll = async () => {
-  // await Event.remove({});
-  await User.remove({});
+  // await Event.deleteMany({});
+  await User.deleteMany({});
 };
 
 // Populate DB.
@@ -17,7 +17,9 @@ const fixtures = async () => {
   }
 
   // Insert test user
-  const firstUser = new User({});
+  const firstUser = new User({
+    email: 'federodes@gmail.com',
+  });
 
   try {
     await firstUser.save();
@@ -29,9 +31,9 @@ const fixtures = async () => {
 
 const initDB = async () => {
   // Clear Author and Post collections
-  await clearAll();
+  // await clearAll();
   // Set some initial data
-  // await fixtures();
+  await fixtures();
 };
 
 module.exports = initDB;

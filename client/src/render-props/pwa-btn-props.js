@@ -11,11 +11,14 @@ class PWABtnProps extends React.PureComponent {
   }
 
   async componentDidMount() {
+    console.log('componentDidMount');
     // Check that service workers are supported, if so, progressively enhance
     // and add push messaging support, otherwise continue without it
     if ('serviceWorker' in navigator) {
+      console.log('serviceWorker in navigator');
       try {
         await navigator.serviceWorker.ready;
+        console.log('serviceWorker ready');
         // Once the service worker is registered set the initial button state
         this.initialiseState();
       } catch (exc) {
@@ -37,6 +40,7 @@ class PWABtnProps extends React.PureComponent {
   }
 
   initialiseState = async () => {
+    console.log('initialize');
     // Are notifications supported in the service worker?
     if (!('showNotification' in ServiceWorkerRegistration.prototype)) {
       console.log('Notifications aren\'t supported.');

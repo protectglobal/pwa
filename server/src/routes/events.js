@@ -2,6 +2,7 @@ const express = require('express');
 const castArray = require('lodash/castArray');
 const { User, Event } = require('../models');
 const twilioAPI = require('../services/twilio');
+const sendPushNotification = require('../graphql/subscription/resolvers/mutation/send-push-notification');
 
 const router = express.Router();
 
@@ -29,6 +30,8 @@ router.post('/', async (req, res) => {
 
   // TODO get user associted to cannon id
   const user = await User.findOne({}).exec();
+
+  await sendPushNotification({}, {}, { usr: user });
 
   if (user && user.phone && user.phone.trim().length > 0) {
     twilioAPI.send({

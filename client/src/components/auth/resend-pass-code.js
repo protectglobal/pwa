@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { graphql } from 'react-apollo';
-import sendPassCodeMutation from '../../graphql/user/mutation/send-pass-code';
+import sendPassCodeMutation from '../../graphql/pass-code/mutation/send-pass-code';
+import ButtonLink from '../common/button-link';
 
 //------------------------------------------------------------------------------
 // COMPONENT:
@@ -27,7 +28,6 @@ class ResendPassCode extends React.PureComponent {
 
     try {
       await sendPassCode({ variables: { email } });
-      this.clearFields();
       onSuccessHook();
     } catch (exc) {
       console.log(exc);
@@ -38,13 +38,14 @@ class ResendPassCode extends React.PureComponent {
   render() {
     const { label, disabled } = this.props;
 
-    const anchor = (
-      <a href="" onClick={this.handleClick}>
+    return (
+      <ButtonLink
+        disabled={disabled}
+        onClick={this.handleClick}
+      >
         {label}
-      </a>
+      </ButtonLink>
     );
-
-    return disabled ? null : anchor;
   }
 }
 
@@ -69,4 +70,3 @@ ResendPassCode.defaultProps = {
 const withMutation = graphql(sendPassCodeMutation, { name: 'sendPassCode' });
 
 export default withMutation(ResendPassCode);
-

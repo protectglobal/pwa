@@ -1,8 +1,7 @@
 const { User } = require('../../../../models');
 
 const user = async (root, args, context) => {
-  console.log('\n\nCONTEXT', context);
-  const { user: usr } = context;
+  const { usr } = context;
 
   if (!usr || !usr._id) {
     return null;

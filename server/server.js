@@ -21,7 +21,13 @@ Joi.objectId = require('joi-objectid')(Joi);
 // LOGS
 //------------------------------------------------------------------------------
 // Log env vars
-const { NODE_ENV, PORT, MONGO_URL, JWT_PRIVATE_KEY } = process.env;
+const {
+  NODE_ENV,
+  PORT,
+  MONGO_URL,
+  JWT_PRIVATE_KEY,
+} = process.env;
+
 const isNotProduction = NODE_ENV !== 'production';
 
 console.log(
@@ -99,7 +105,8 @@ const getUser = async (req) => {
 const server = new ApolloServer({
   schema,
   context: async ({ req }) => ({
-    user: await getUser(req),
+    usr: await getUser(req),
+    // usr: { _id: '5b7be6b5f799de5c5ce126a4' },
   }),
   playground: {
     settings: {
