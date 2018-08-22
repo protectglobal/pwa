@@ -1,5 +1,6 @@
 const Base = require('./base');
 const User = require('./user');
+const PassCode = require('./pass-code');
 const Subscription = require('./subscription');
 const Event = require('./event');
 
@@ -7,6 +8,7 @@ const Event = require('./event');
 const allSchemas = {
   Base,
   User,
+  PassCode,
   Subscription,
   Event,
 };

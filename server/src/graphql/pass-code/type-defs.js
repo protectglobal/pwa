@@ -1,17 +1,16 @@
 const typeDefs = `
-  type User {
+  type PassCode {
     _id: ID!
-    createdAt: Date!
     email: String!
-    phone: String
+    passCode: String!
   }
 
   type Query {
-    user: User
+    passCode(email: String!): PassCode!
   }
 
   type Mutation {
-    setPhone(phone: String!): User!
+    sendPassCode(email: String!): Response!
   }
 `;
 
