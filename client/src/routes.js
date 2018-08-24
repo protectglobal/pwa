@@ -14,19 +14,19 @@ const Routes = props => (
   <ScrollToTop>
     <Switch>
       {/* HOME */}
-      <LoggedInRoute
+      {/* <LoggedInRoute
         exact
         path="/"
         component={HomePage}
         overlay={LoginPage}
         {...props}
-      />
-      {/* <RouteWithProps
+      /> */}
+      <RouteWithProps
         exact
         path="/"
         component={HomePage}
         {...props}
-      /> */}
+      />
       {/* NOT FOUND */}
       <Route
         component={NotFoundPage}

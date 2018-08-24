@@ -1,3 +1,62 @@
+const pick = require('lodash/pick');
+const { Subscription } = require('../../../../models');
+const pushAPI = require('../../../../services/push');
+const asyncForEach = require('../../../../utils/async-for-each');
+// import utils from '../../utils';
+
+//------------------------------------------------------------------------------
+// MUTATION:
+//------------------------------------------------------------------------------
+/**
+* @summary Send push notification to all subscribed users.
+*/
+const sendPushNotification = async (root, args, context) => {
+  // const { title, body, icon } = args;
+  const { usr } = context;
+  console.log('\nSend push notification');
+
+  // TODO: use middleware
+  // Users.utils.checkLoggedInAndVerified(userId);
+
+  // Gather all subscriptions from all subscribed users
+  let subscriptions = [];
+  try {
+    subscriptions = await Subscription.find({}).select({ endpoint: 1, keys: 1 }).exec();
+  } catch (exc) {
+    return { status: 500 };
+  }
+  console.log('\nsubscriptions', subscriptions);
+
+  // Send the messages
+  asyncForEach(subscriptions, async (subscription) => {
+    console.log('\n\nSUBS', subscription);
+    let response;
+    try {
+      response = await pushAPI.send({
+        subscription: pick(subscription, ['endpoint', 'keys']),
+        title: 'Welcome',
+        body: 'Thank you for enabling push notifications',
+        // icon,
+      });
+    } catch (exc) {
+      console.log(exc);
+    }
+
+    console.log('\n\nSUBS RESPONSE', response);
+
+    if (response && response.error) {
+      // This is probably an old subscription, remove it
+      await Subscription.deleteOne({ userId: usr._id, endpoint: subscription.endpoint });
+    }
+  });
+
+  return { status: 200 };
+};
+//------------------------------------------------------------------------------
+
+module.exports = sendPushNotification;
+
+/*
 const webPush = require('web-push');
 const { Subscription } = require('../../../../models');
 // import utils from '../../utils';
@@ -33,8 +92,9 @@ if (
 //------------------------------------------------------------------------------
 /**
 * @summary Send push notification to all subscribed users.
-*/
+/
 const sendPushNotification = async (root, args, context) => {
+  // const { title, body, icon } = args;
   const { usr } = context;
   console.log('\nSend push notification');
 
@@ -44,6 +104,8 @@ const sendPushNotification = async (root, args, context) => {
   // Set web-push keys
   webPush.setGCMAPIKey(GCM_PRIVATE_KEY);
   webPush.setVapidDetails(VAPID_SUBJECT, VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY);
+
+  // const payload = JSON.stringify({ title, body, icon });
 
   const payload = JSON.stringify({
     title: 'Welcome',
@@ -85,3 +147,4 @@ const sendPushNotification = async (root, args, context) => {
 //------------------------------------------------------------------------------
 
 module.exports = sendPushNotification;
+*/
