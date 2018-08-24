@@ -34,7 +34,7 @@ const Console = ({
 
 Console.propTypes = {
   cannonId: PropTypes.string,
-  eventType: PropTypes.oneOf(['faultCode', 'cannonInput', '']),
+  eventType: PropTypes.oneOf(['panicBtn', '']),
   eventValue: PropTypes.string,
   httpRes: PropTypes.shape({
     status: PropTypes.string,
