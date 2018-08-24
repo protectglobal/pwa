@@ -60,7 +60,7 @@ router.post('/', async (req, res) => {
       response = await pushAPI.send({
         subscription: pick(subscription, ['endpoint', 'keys']),
         title: 'Incoming event',
-        body: `${cannonId} - ${eventType} - ${eventValue}`,
+        body: `${eventType} - ${eventValue}`,
         // icon,
       });
     } catch (exc) {
