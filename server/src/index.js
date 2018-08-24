@@ -4,15 +4,16 @@ const path = require('path');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const { ApolloServer } = require('apollo-server-express');
+const requestIp = require('request-ip');
 const Joi = require('joi');
 const jwt = require('jsonwebtoken');
 const pick = require('lodash/pick');
-const schema = require('./src/graphql/exec-schema');
-const initDB = require('./src/init-db');
+const schema = require('./graphql/exec-schema');
+const initDB = require('./init-db');
 // const users = require('./src/routes/users');
 // const auth = require('./src/routes/auth');
-const login = require('./src/routes/login');
-const events = require('./src/routes/events');
+const login = require('./routes/login');
+const events = require('./routes/events');
 
 // Extend Joi validator by adding objectId type
 Joi.objectId = require('joi-objectid')(Joi);
@@ -60,6 +61,7 @@ app.use(express.json());
 if (isNotProduction) {
   app.use('*', cors({ origin: 'http://localhost:5000' }));
 }
+app.use(requestIp.mw()); // req.clientIp
 
 //------------------------------------------------------------------------------
 // MONGO CONNECTION
@@ -86,16 +88,17 @@ app.use(staticFiles);
 //------------------------------------------------------------------------------
 const getUser = async (req) => {
   const token = req && req.headers && req.headers.authorization;
+  const ip = req.clientIp || null;
   // console.log('req.headers', req && req.headers);
   // console.log('req.headers', req && req.headers && req.headers.authorization);
 
   if (!token) {
-    return null;
+    return { ip };
   }
 
   try {
     const json = await jwt.verify(token, JWT_PRIVATE_KEY);
-    return pick(json, '_id');
+    return Object.assign({}, pick(json, '_id'), { ip });
   } catch (exc) {
     console.error('Not authorized');
     return null;
@@ -105,8 +108,8 @@ const getUser = async (req) => {
 const server = new ApolloServer({
   schema,
   context: async ({ req }) => ({
-    // usr: await getUser(req),
-    usr: { _id: '5b7be6b5f799de5c5ce126a4' },
+    usr: await getUser(req),
+    // usr: { _id: '5b7be6b5f799de5c5ce126a4' },
   }),
   playground: {
     settings: {

@@ -22,6 +22,9 @@ const schema = mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  ip: {
+    type: String,
+  },
   /* name: {
     type: String,
     minlength: MIN_STRING_LENGTH,

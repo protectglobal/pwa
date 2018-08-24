@@ -41,8 +41,9 @@ Thanks.
 //------------------------------------------------------------------------------
 // MUTATION:
 //------------------------------------------------------------------------------
-const sendPassCode = async (root, args) => {
+const sendPassCode = async (root, args, context) => {
   const { email } = args;
+  const { usr } = context;
 
   // Is there any user associated to this email?
   const userExists = !!(await User.findOne({ email }));
@@ -50,7 +51,7 @@ const sendPassCode = async (root, args) => {
   // If no, create a new user record before sending the pass code
   if (!userExists) {
     try {
-      const user = new User({ email });
+      const user = new User({ email, ip: usr.ip });
       await user.save();
     } catch (exc) {
       console.log(exc);

@@ -2,6 +2,7 @@ const typeDefs = `
   type User {
     _id: ID!
     createdAt: Date!
+    ip: String
     email: String!
     phone: String
   }
