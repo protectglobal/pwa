@@ -31,7 +31,7 @@ const fixtures = async () => {
 
 const initDB = async () => {
   // Clear Author and Post collections
-  // await clearAll();
+  await clearAll();
   // Set some initial data
   await fixtures();
 };
