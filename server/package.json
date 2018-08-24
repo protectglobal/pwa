@@ -1,12 +1,12 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "main": "src/index.js",
+  "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon -r dotenv/config src/index.js",
+    "start": "nodemon -r dotenv/config index.js",
     "build": "babel . --ignore node_modules,build --out-dir build",
-    "start:prod": "node -r dotenv/config build/src/index.js",
+    "start:prod": "node -r dotenv/config build/index.js",
     "lint": "eslint ."
   },
   "dependencies": {

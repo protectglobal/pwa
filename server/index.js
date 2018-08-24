@@ -8,12 +8,12 @@ const requestIp = require('request-ip');
 const Joi = require('joi');
 const jwt = require('jsonwebtoken');
 const pick = require('lodash/pick');
-const schema = require('./graphql/exec-schema');
-const initDB = require('./init-db');
+const schema = require('./src/graphql/exec-schema');
+const initDB = require('./src/init-db');
 // const users = require('./src/routes/users');
 // const auth = require('./src/routes/auth');
-const login = require('./routes/login');
-const events = require('./routes/events');
+const login = require('./src/routes/login');
+const events = require('./src/routes/events');
 
 // Extend Joi validator by adding objectId type
 Joi.objectId = require('joi-objectid')(Joi);
