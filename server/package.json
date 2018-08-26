@@ -4,9 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon -r dotenv/config server.js",
+    "start": "nodemon -r dotenv/config index.js",
     "build": "babel . --ignore node_modules,build --out-dir build",
-    "start:prod": "node -r dotenv/config build/server.js",
+    "start:prod": "node -r dotenv/config build/index.js",
     "lint": "eslint ."
   },
   "dependencies": {
@@ -30,6 +30,7 @@
     "mongoose": "^5.2.5",
     "nodemailer": "^4.6.7",
     "request": "^2.87.0",
+    "request-ip": "^2.1.1",
     "request-promise-native": "^1.0.5",
     "twilio": "^3.18.0",
     "validator": "^10.5.0",

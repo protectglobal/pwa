@@ -4,12 +4,12 @@ const send = require('./send');
 const twilioAPI = {};
 
 //------------------------------------------------------------------------------
-twilioAPI.testTwilioAPI = (cb) => {
-  apiTest(cb);
+twilioAPI.testTwilioAPI = async (cb) => {
+  await apiTest(cb);
 };
 //------------------------------------------------------------------------------
-twilioAPI.send = (args) => {
-  send(args);
+twilioAPI.send = async (args) => {
+  await send(args);
 };
 //------------------------------------------------------------------------------
 

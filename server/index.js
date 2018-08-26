@@ -4,6 +4,7 @@ const path = require('path');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const { ApolloServer } = require('apollo-server-express');
+const requestIp = require('request-ip');
 const Joi = require('joi');
 const jwt = require('jsonwebtoken');
 const pick = require('lodash/pick');
@@ -60,6 +61,7 @@ app.use(express.json());
 if (isNotProduction) {
   app.use('*', cors({ origin: 'http://localhost:5000' }));
 }
+app.use(requestIp.mw()); // req.clientIp
 
 //------------------------------------------------------------------------------
 // MONGO CONNECTION
@@ -86,16 +88,17 @@ app.use(staticFiles);
 //------------------------------------------------------------------------------
 const getUser = async (req) => {
   const token = req && req.headers && req.headers.authorization;
+  const ip = req.clientIp || null;
   // console.log('req.headers', req && req.headers);
   // console.log('req.headers', req && req.headers && req.headers.authorization);
 
   if (!token) {
-    return null;
+    return { ip };
   }
 
   try {
     const json = await jwt.verify(token, JWT_PRIVATE_KEY);
-    return pick(json, '_id');
+    return Object.assign({}, pick(json, '_id'), { ip });
   } catch (exc) {
     console.error('Not authorized');
     return null;

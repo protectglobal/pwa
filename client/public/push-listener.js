@@ -5,12 +5,16 @@ function showNotification (event) {
     return;
   }
 
-  var title = 'Push notification demo';
+  console.log('\n\nevent.data', event.data);
+  var data = event && event.data && event.data.json() || null;
+
+  var title = data && data.title || 'Push notification demo';
   var options = {
-    body: event.data && event.data.text() ? event.data.text() : 'Push message no payload',
-    tag: 'demo',
-    icon: '/img/apple-touch-icon.png',
-    badge: '/img/apple-touch-icon.png',
+    body: data && data.body || 'Push message no payload',
+    icon: data && data.icon || null,
+    // tag: 'demo',
+    // icon: '/img/apple-touch-icon.png',
+    // badge: '/img/apple-touch-icon.png',
     // Custom actions buttons
     /* actions: [
       { action: 'yes', title: 'I ♥ this app!' },
