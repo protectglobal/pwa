@@ -1,23 +1,6 @@
-const nodemailer = require('nodemailer');
+const { nodemailer, transporter } = require('../../../../services/nodemailer/config');
 const { User, PassCode, genPassCode } = require('../../../../models');
 
-const {
-  SMTP_HOST,
-  SMTP_USERNAME,
-  SMTP_PASSWORD,
-  SMTP_PORT,
-} = process.env;
-
-// Create reusable transporter object using the default SMTP transport
-const transporter = nodemailer.createTransport({
-  host: SMTP_HOST,
-  port: SMTP_PORT,
-  secure: false, // true for 465, false for other ports
-  auth: {
-    user: SMTP_USERNAME,
-    pass: SMTP_PASSWORD,
-  },
-});
 //------------------------------------------------------------------------------
 // AUX FUNCTIONS:
 //------------------------------------------------------------------------------
@@ -51,15 +34,13 @@ const sendPassCode = async (root, args, context) => {
 
   // Genearte a 6-digit pass code and store it into DB
   const passCode = genPassCode(6);
-  console.log('passCode', passCode);
 
   try {
-    const record = await PassCode.findOneAndUpdate(
+    await PassCode.findOneAndUpdate(
       { email },
       { $set: { passCode } },
       { upsert: true, new: true },
     );
-    console.log('record', record);
   } catch (exc) {
     console.error(exc);
   }
