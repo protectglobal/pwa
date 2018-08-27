@@ -1,5 +1,10 @@
 const { nodemailer, transporter } = require('../../../../services/nodemailer/config');
-const { User, PassCode, genPassCode } = require('../../../../models');
+const {
+  User,
+  validateNewUser,
+  PassCode,
+  genPassCode,
+} = require('../../../../models');
 
 //------------------------------------------------------------------------------
 // AUX FUNCTIONS:
@@ -17,14 +22,23 @@ Thanks.
 const sendPassCode = async (root, args, context) => {
   const { email } = args;
   const { usr } = context;
+  console.log('sendPassCode context.usr', usr);
 
   // Is there any user associated to this email?
   const userExists = !!(await User.findOne({ email }));
 
   // If no, create a new user record before sending the pass code
   if (!userExists) {
+    const newUser = { email, ip: usr.ip };
+
+    const { error } = validateNewUser(newUser);
+    if (error) {
+      console.error(error);
+      return { status: 500 };
+    }
+
     try {
-      const user = new User({ email, ip: usr.ip });
+      const user = new User(newUser);
       await user.save();
     } catch (exc) {
       console.log(exc);

@@ -83,8 +83,9 @@ app.use(staticFiles);
 // APOLLO SERVER
 //------------------------------------------------------------------------------
 const getUser = async (req) => {
-  const token = req && req.headers && req.headers.authorization;
-  const ip = req.clientIp || null;
+  const token = (req && req.headers && req.headers.authorization) || null;
+  const ip = (req && req.clientIp) || null;
+  // console.log('user IP', ip);
   // console.log('req.headers', req && req.headers);
   // console.log('req.headers', req && req.headers && req.headers.authorization);
 
@@ -118,7 +119,6 @@ server.applyMiddleware({ app, path: '/graphql' });
 //------------------------------------------------------------------------------
 // ROUTES
 //------------------------------------------------------------------------------
-// TODO: call it /api/... instead
 // app.use('/api/users', users);
 // app.use('/api/auth', auth);
 app.use('/api/login', login);
