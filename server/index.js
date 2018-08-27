@@ -122,7 +122,7 @@ server.applyMiddleware({ app, path: '/graphql' });
 // app.use('/api/users', users);
 // app.use('/api/auth', auth);
 app.use('/api/login', login);
-app.use('/events', events);
+app.use('/api/events', events);
 
 //------------------------------------------------------------------------------
 // CATCH ALL
