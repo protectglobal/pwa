@@ -21,53 +21,28 @@ router.post('/', async (req, res) => {
   const { cannonId, eventType, eventValue } = data;
 
   // Store event into events collection
-  try {
-    const event = new Event({
-      cannonId,
-      eventType,
-      eventValue: eventValue && castArray(eventValue), // make sure eventValue is an array
-    });
-    await event.save();
-    res.sendStatus(200);
-  } catch (exc) {
-    console.log(exc);
-    res.sendStatus(500);
-  }
+  const event = new Event({
+    cannonId,
+    eventType,
+    eventValue: eventValue && castArray(eventValue), // make sure eventValue is an array
+  });
+  await event.save();
+  res.sendStatus(200);
 
   // TODO get user associted to cannon id
-  let user;
-  try {
-    user = await User.findOne({}).exec();
-  } catch (exc) {
-    console.log(exc);
-  }
+  const user = await User.findOne({}).exec();
 
   // Get subscriptions associated to user
-  let subscriptions = [];
-  try {
-    subscriptions = await Subscription.find({}).select({ endpoint: 1, keys: 1 }).exec();
-  } catch (exc) {
-    console.log(exc);
-  }
-
-  console.log('\n\nsubscriptions', subscriptions);
+  const subscriptions = await Subscription.find({}).select({ endpoint: 1, keys: 1 }).exec();
 
   // Send the messages
   asyncForEach(subscriptions, async (subscription) => {
-    console.log('\n\nSUBS', subscription);
-    let response;
-    try {
-      response = await pushAPI.send({
-        subscription: pick(subscription, ['endpoint', 'keys']),
-        title: 'Incoming event',
-        body: `${eventType} - ${eventValue}`,
-        // icon,
-      });
-    } catch (exc) {
-      console.log(exc);
-    }
-
-    console.log('\n\nSUBS RESPONSE', response);
+    const response = await pushAPI.send({
+      subscription: pick(subscription, ['endpoint', 'keys']),
+      title: 'Incoming event',
+      body: `${eventType} - ${eventValue}`,
+      // icon,
+    });
 
     if (response && response.error) {
       // This is probably an old subscription, remove it
@@ -76,14 +51,10 @@ router.post('/', async (req, res) => {
   });
 
   if (user && user.phone && user.phone.trim().length > 0) {
-    try {
-      await twilioAPI.send({
-        to: user.phone.trim(),
-        body: `${eventType} - ${eventValue}`,
-      });
-    } catch (exc) {
-      console.log(exc);
-    }
+    await twilioAPI.send({
+      to: user.phone.trim(),
+      body: `${eventType} - ${eventValue}`,
+    });
   }
 });
 

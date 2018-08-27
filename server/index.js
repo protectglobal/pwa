@@ -1,4 +1,5 @@
 require('./src/check-env-vars');
+require('express-async-errors');
 const express = require('express');
 const helmet = require('helmet');
 const path = require('path');
@@ -13,6 +14,7 @@ const schema = require('./src/graphql/exec-schema');
 const initDB = require('./src/models/init-db');
 // const users = require('./src/routes/users');
 // const auth = require('./src/routes/auth');
+const errorHandling = require('./src/middlewares/error');
 const login = require('./src/routes/login');
 const events = require('./src/routes/events');
 
@@ -123,6 +125,11 @@ server.applyMiddleware({ app, path: '/graphql' });
 // app.use('/api/auth', auth);
 app.use('/api/login', login);
 app.use('/api/events', events);
+
+//------------------------------------------------------------------------------
+// ERROR HANDLING MIDDLEWARE
+//------------------------------------------------------------------------------
+app.use(errorHandling);
 
 //------------------------------------------------------------------------------
 // CATCH ALL
