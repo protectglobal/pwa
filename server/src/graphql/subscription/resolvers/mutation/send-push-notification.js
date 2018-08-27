@@ -29,7 +29,6 @@ const sendPushNotification = async (root, args, context) => {
 
   // Send the messages
   asyncForEach(subscriptions, async (subscription) => {
-    console.log('\n\nSUBS', subscription);
     let response;
     try {
       response = await pushAPI.send({
@@ -41,8 +40,6 @@ const sendPushNotification = async (root, args, context) => {
     } catch (exc) {
       console.log(exc);
     }
-
-    console.log('\n\nSUBS RESPONSE', response);
 
     if (response && response.error) {
       // This is probably an old subscription, remove it

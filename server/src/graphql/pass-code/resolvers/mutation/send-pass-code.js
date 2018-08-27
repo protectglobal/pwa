@@ -8,16 +8,6 @@ const {
   SMTP_PORT,
 } = process.env;
 
-if (
-  !SMTP_HOST || SMTP_HOST.length === 0
-  || !SMTP_USERNAME || SMTP_USERNAME.length === 0
-  || !SMTP_PASSWORD || SMTP_PASSWORD.length === 0
-  || !SMTP_PORT || SMTP_PORT.length === 0
-) {
-  console.error('FATAL ERROR: SMTP env vars missing');
-  process.exit(1);
-}
-
 // Create reusable transporter object using the default SMTP transport
 const transporter = nodemailer.createTransport({
   host: SMTP_HOST,

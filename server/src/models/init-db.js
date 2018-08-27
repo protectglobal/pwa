@@ -1,4 +1,4 @@
-const { User, Event } = require('./models');
+const { User, Event } = require('./index');
 
 // Clear DB
 const clearAll = async () => {

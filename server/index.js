@@ -1,3 +1,4 @@
+require('./src/check-env-vars');
 const express = require('express');
 const helmet = require('helmet');
 const path = require('path');
@@ -9,7 +10,7 @@ const Joi = require('joi');
 const jwt = require('jsonwebtoken');
 const pick = require('lodash/pick');
 const schema = require('./src/graphql/exec-schema');
-const initDB = require('./src/init-db');
+const initDB = require('./src/models/init-db');
 // const users = require('./src/routes/users');
 // const auth = require('./src/routes/auth');
 const login = require('./src/routes/login');
@@ -36,11 +37,6 @@ console.log(
   '\nprocess.env.PORT', PORT,
   '\nprocess.env.MONGO_URL', MONGO_URL,
 );
-
-if (!JWT_PRIVATE_KEY || JWT_PRIVATE_KEY.length === 0) {
-  console.error('FATAL ERROR: JWT_PRIVATE_KEY env var missing');
-  process.exit(1);
-}
 
 //------------------------------------------------------------------------------
 // INIT EXPRESS SERVER
