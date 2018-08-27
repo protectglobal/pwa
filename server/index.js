@@ -1,5 +1,6 @@
 require('./src/check-env-vars');
 require('express-async-errors');
+require('./src/services/winston/config'); // logger
 const express = require('express');
 const helmet = require('helmet');
 const path = require('path');
@@ -22,7 +23,7 @@ const events = require('./src/routes/events');
 Joi.objectId = require('joi-objectid')(Joi);
 
 //------------------------------------------------------------------------------
-// LOGS
+// ENV VARS
 //------------------------------------------------------------------------------
 // Log env vars
 const {
