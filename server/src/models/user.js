@@ -5,11 +5,6 @@ const jwt = require('jsonwebtoken');
 
 const { JWT_PRIVATE_KEY } = process.env;
 
-if (!JWT_PRIVATE_KEY || JWT_PRIVATE_KEY.length === 0) {
-  console.error('FATAL ERROR: JWT_PRIVATE_KEY env var missing');
-  process.exit(1);
-}
-
 // Constants
 const MIN_STRING_LENGTH = 2;
 const MAX_STRING_LENGTH = 255;
