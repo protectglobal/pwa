@@ -5,6 +5,7 @@ import userFragment from './graphql/user/fragment/user';
 import { ScrollToTop, RouteWithProps, LoggedInRoute } from './components/route-wrappers';
 import LoginPage from './pages/login-page';
 import HomePage from './pages/home-page';
+import SettingsPage from './pages/settings-page';
 import NotFoundPage from './pages/not-found-page';
 
 //------------------------------------------------------------------------------
@@ -18,6 +19,14 @@ const Routes = props => (
         exact
         path="/"
         component={HomePage}
+        overlay={LoginPage}
+        {...props}
+      />
+      {/* SETTINGS */}
+      <LoggedInRoute
+        exact
+        path="/settings"
+        component={SettingsPage}
         overlay={LoginPage}
         {...props}
       />
