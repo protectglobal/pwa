@@ -2,40 +2,51 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
+const SIZE = 140;
 //------------------------------------------------------------------------------
 // STYLES:
 //------------------------------------------------------------------------------
-const Div = styled.div`
-  background-color: ${({ type, theme }) => (type === 'error' && theme.color.dangerLight)
-  || (type === 'success' && theme.color.successLight)
-  || 'white'};
-  border: 1px solid ${({ type, theme }) => (type === 'error' && theme.color.danger)
-  || (type === 'success' && theme.color.success)
-  || 'black'};
-  font-size: ${({ theme }) => theme.fontSize.small};
-  padding: 10px 15px;
+const Button = styled.button`
+  /* reset button style */
+  background: none !important;
+  border: 3px solid ${({ disabled, theme }) => (
+    (!disabled || disabled === false) ? theme.color.primary : theme.color.default
+  )};
+  border-radius: 15px;
+  height: ${SIZE}px;
+  width: ${SIZE}px;
+  font: 'inherit';
+  color: ${({ disabled, theme }) => (
+    (!disabled || disabled === false) ? theme.color.primary : theme.color.default
+  )};
+  cursor: ${({ disabled }) => (
+    (!disabled || disabled === false) ? 'pointer' : 'not-allowed'
+  )};
 `;
 
-Div.propTypes = {
-  type: PropTypes.oneOf(['error', 'success']).isRequired,
+Button.propTypes = {
+  type: PropTypes.oneOf(['button']).isRequired,
 };
+
 //------------------------------------------------------------------------------
 // COMPONENT:
 //------------------------------------------------------------------------------
-const Alert = ({ type, content, ...rest }) => (
-  content && content.trim().length > 0
-    ? <Div type={type} {...rest}>{content}</Div>
-    : null
+const SquareButton = ({ children, ...rest }) => (
+  <Button
+    type="button"
+    className="flex items-center justify-center"
+    {...rest}
+  >
+    {children}
+  </Button>
 );
 
-Alert.propTypes = {
-  type: PropTypes.oneOf(['error', 'success']).isRequired,
-  content: PropTypes.string,
+SquareButton.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.string,
+  ]).isRequired,
+  // Plus all of the native button props
 };
 
-Alert.defaultProps = {
-  content: '',
-};
-//------------------------------------------------------------------------------
-
-export default Alert;
+export default SquareButton;

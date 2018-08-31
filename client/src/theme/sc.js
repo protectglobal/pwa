@@ -1,19 +1,20 @@
 // Styled components theme
 const theme = {
   color: {
-    default: 'grey',
-    primary: 'blue',
+    default: 'rgb(129, 129, 130)',
+    primary: 'rgb(0, 111, 180)',
     danger: 'tomato',
     dangerLight: '#fcdbd9',
     success: 'green',
     successLight: '#cfefdf',
-    link: 'blue',
+    link: 'rgb(0, 111, 180)',
+    black: 'rgb(26, 23, 27)',
   },
   fontSize: {
     small: '14px',
     normal: '16px',
   },
-  backgorund: {
+  background: {
     color: '#236caf',
   },
 };

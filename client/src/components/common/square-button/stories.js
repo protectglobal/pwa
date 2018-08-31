@@ -1,30 +1,24 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { host } from 'storybook-host';
-import ButtonLink from './index';
+// See: https://material.io/tools/icons/?style=baseline
+import BuildIcon from '@material-ui/icons/Build';
+import SquareButton from './index';
 
-storiesOf('ButtonLink', module)
+const Icon = () => <BuildIcon style={{ fontSize: '60px' }} />;
+
+storiesOf('SquareButton', module)
   .addDecorator(host({
     align: 'center middle',
     width: '60%',
   }))
-  .add('ButtonLink default', () => (
-    <ButtonLink>
-      I&apos;m the content
-    </ButtonLink>
+  .add('SquareButton default', () => (
+    <SquareButton>
+      <Icon />
+    </SquareButton>
   ))
-  .add('ButtonLink disabled', () => (
-    <ButtonLink disabled>
-      I&apos;m the content
-    </ButtonLink>
-  ))
-  .add('ButtonLink no underline', () => (
-    <ButtonLink underline={false}>
-      I&apos;m the content
-    </ButtonLink>
-  ))
-  .add('ButtonLink no underline disabled', () => (
-    <ButtonLink underline={false} disabled>
-      I&apos;m the content
-    </ButtonLink>
+  .add('SquareButton disabled', () => (
+    <SquareButton disabled>
+      <Icon />
+    </SquareButton>
   ));
