@@ -31,21 +31,28 @@ Button.propTypes = {
 //------------------------------------------------------------------------------
 // COMPONENT:
 //------------------------------------------------------------------------------
-const SquareButton = ({ children, ...rest }) => (
+const SquareButton = ({ text, icon: Icon, ...rest }) => (
   <Button
     type="button"
     className="flex items-center justify-center"
     {...rest}
   >
-    {children}
+    <div className="flex-column">
+      <Icon
+        className="flex-auto"
+        style={{ fontSize: '60px' }}
+      />
+      <div className="mb1" />
+      <div className="bold">
+        {text.toUpperCase()}
+      </div>
+    </div>
   </Button>
 );
 
 SquareButton.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.string,
-  ]).isRequired,
+  text: PropTypes.string.isRequired,
+  icon: PropTypes.func.isRequired,
   // Plus all of the native button props
 };
 

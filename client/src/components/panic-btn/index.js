@@ -1,18 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from '@material-ui/core/Button';
+// See: https://material.io/tools/icons/?style=baseline
+import WavesIcon from '@material-ui/icons/Waves';
+import SquareButton from '../common/square-button';
 
 //------------------------------------------------------------------------------
 // COMPONENT:
 //------------------------------------------------------------------------------
+// TODO: disable after submit
+// TODO: add confirmation?
 const PanicBtn = ({ onClick }) => (
-  <Button
-    variant="contained"
-    color="secondary"
+  <SquareButton
+    text="RELEASE FOG"
+    icon={WavesIcon}
     onClick={onClick}
-  >
-    Panic Button
-  </Button>
+  />
 );
 
 PanicBtn.propTypes = {
