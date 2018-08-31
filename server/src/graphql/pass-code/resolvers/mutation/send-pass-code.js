@@ -1,23 +1,11 @@
-const nodemailer = require('nodemailer');
-const { User, PassCode, genPassCode } = require('../../../../models');
-
+const { nodemailer, transporter } = require('../../../../services/nodemailer/config');
 const {
-  SMTP_HOST,
-  SMTP_USERNAME,
-  SMTP_PASSWORD,
-  SMTP_PORT,
-} = process.env;
+  User,
+  validateNewUser,
+  PassCode,
+  genPassCode,
+} = require('../../../../models');
 
-// Create reusable transporter object using the default SMTP transport
-const transporter = nodemailer.createTransport({
-  host: SMTP_HOST,
-  port: SMTP_PORT,
-  secure: false, // true for 465, false for other ports
-  auth: {
-    user: SMTP_USERNAME,
-    pass: SMTP_PASSWORD,
-  },
-});
 //------------------------------------------------------------------------------
 // AUX FUNCTIONS:
 //------------------------------------------------------------------------------
@@ -34,14 +22,23 @@ Thanks.
 const sendPassCode = async (root, args, context) => {
   const { email } = args;
   const { usr } = context;
+  console.log('sendPassCode context.usr', usr);
 
   // Is there any user associated to this email?
   const userExists = !!(await User.findOne({ email }));
 
   // If no, create a new user record before sending the pass code
   if (!userExists) {
+    const newUser = { email, ip: usr.ip };
+
+    const { error } = validateNewUser(newUser);
+    if (error) {
+      console.error(error);
+      return { status: 500 };
+    }
+
     try {
-      const user = new User({ email, ip: usr.ip });
+      const user = new User(newUser);
       await user.save();
     } catch (exc) {
       console.log(exc);
@@ -51,15 +48,13 @@ const sendPassCode = async (root, args, context) => {
 
   // Genearte a 6-digit pass code and store it into DB
   const passCode = genPassCode(6);
-  console.log('passCode', passCode);
 
   try {
-    const record = await PassCode.findOneAndUpdate(
+    await PassCode.findOneAndUpdate(
       { email },
       { $set: { passCode } },
       { upsert: true, new: true },
     );
-    console.log('record', record);
   } catch (exc) {
     console.error(exc);
   }

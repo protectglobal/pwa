@@ -6,7 +6,6 @@ const router = express.Router();
 
 router.post('/', async (req, res) => {
   const data = req.body;
-  console.log('data', data);
   const credentials = pick(data, ['email', 'passCode']);
 
   const { error } = validateLogin(credentials);

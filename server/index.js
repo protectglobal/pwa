@@ -1,4 +1,6 @@
 require('./src/check-env-vars');
+require('express-async-errors');
+require('./src/services/winston/config'); // logger
 const express = require('express');
 const helmet = require('helmet');
 const path = require('path');
@@ -9,18 +11,39 @@ const requestIp = require('request-ip');
 const Joi = require('joi');
 const jwt = require('jsonwebtoken');
 const pick = require('lodash/pick');
+const { logger } = require('./src/services/winston/config');
 const schema = require('./src/graphql/exec-schema');
 const initDB = require('./src/models/init-db');
 // const users = require('./src/routes/users');
 // const auth = require('./src/routes/auth');
+const errorHandling = require('./src/middlewares/error');
 const login = require('./src/routes/login');
 const events = require('./src/routes/events');
+const hello = require('./src/routes/hello');
+const counter = require('./src/routes/counter');
 
 // Extend Joi validator by adding objectId type
 Joi.objectId = require('joi-objectid')(Joi);
 
 //------------------------------------------------------------------------------
-// LOGS
+// UNCAUGHT EXCEPTIONS
+//------------------------------------------------------------------------------
+const handleException = async (exc) => {
+  await logger.error(exc.message || 'No msg field', console.log);
+  // Something bad happened, kill the process and then restart fresh
+  // TODO: use other winston transports
+  process.exit(1);
+};
+
+process.on('uncaughtException', handleException);
+process.on('unhandledRejection', handleException);
+
+
+// const p = Promise.reject(new Error('Ive been rejected :('));
+// p.then(() => { console.log('done'); });
+
+//------------------------------------------------------------------------------
+// ENV VARS
 //------------------------------------------------------------------------------
 // Log env vars
 const {
@@ -83,8 +106,9 @@ app.use(staticFiles);
 // APOLLO SERVER
 //------------------------------------------------------------------------------
 const getUser = async (req) => {
-  const token = req && req.headers && req.headers.authorization;
-  const ip = req.clientIp || null;
+  const token = (req && req.headers && req.headers.authorization) || null;
+  const ip = (req && req.clientIp) || null;
+  // console.log('user IP', ip);
   // console.log('req.headers', req && req.headers);
   // console.log('req.headers', req && req.headers && req.headers.authorization);
 
@@ -118,11 +142,17 @@ server.applyMiddleware({ app, path: '/graphql' });
 //------------------------------------------------------------------------------
 // ROUTES
 //------------------------------------------------------------------------------
-// TODO: call it /api/... instead
 // app.use('/api/users', users);
 // app.use('/api/auth', auth);
 app.use('/api/login', login);
-app.use('/events', events);
+app.use('/api/events', events);
+app.use('/api/hello', hello);
+app.use('/api/counter', counter);
+
+//------------------------------------------------------------------------------
+// ERROR HANDLING MIDDLEWARE
+//------------------------------------------------------------------------------
+app.use(errorHandling);
 
 //------------------------------------------------------------------------------
 // CATCH ALL
