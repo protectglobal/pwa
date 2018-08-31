@@ -12,8 +12,14 @@ This project includes the following libraries/functionality
 - material-ui
 - styled components
 - jest-enzyme
+- storybook
 - basscss
-- service workers
+- Progressive Web App features:
+  * service-worker;
+  * caching;
+  * add to home screen;
+  * push notifications;
+  * app shell architecture;
 
 ## Step by step guide to get started with this boilerplate
 
@@ -124,6 +130,19 @@ Comment: if you want to deploy from a branch different than master run:
 ```
 
 Please notice, similar to the previous case, when the app is deployed to heroku, the CRA is converted into a static asset during the build process and injected into the Express app, ie, there will be only one server running; the port is randomly chosen by heroku and, as far as I understand, this behavior cannot be changed.
+
+## Running storybook
+Open a new terminal (the meteor app doesn't need to be running) and type:
+```
+>> cd client
+>> npm i -g @storybook/cli
+>> yarn run storybook
+```
+Storybook will be available at [http://localhost:9009/](http://localhost:9009/).
+
+## Favicon / manifest generator
+In order to generate the favicons for your project, you can use the following generator:
+https://realfavicongenerator.net/
 
 ## Further reading
 1. https://originmaster.com/running-create-react-app-and-express-crae-on-heroku-c39a39fe7851
