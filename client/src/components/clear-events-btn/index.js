@@ -7,6 +7,7 @@ import clearEventsMutation from '../../graphql/event/mutation/clear-events';
 //------------------------------------------------------------------------------
 // COMPONENT:
 //------------------------------------------------------------------------------
+// TODO: we should probably don't delete event from DB but from browser mem
 class ClearEventsBtn extends React.PureComponent {
   handleClick = async () => {
     const { clearEvents } = this.props;

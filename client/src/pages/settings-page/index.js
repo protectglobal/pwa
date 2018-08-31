@@ -17,10 +17,8 @@ import Loading from '../../components/common/loading';
 //------------------------------------------------------------------------------
 const SettingsPage = ({ curUser }) => (
   <div>
-    <Title>Settings</Title>
-    <Subtitle
-      text="Enable SMS notifications"
-    />
+    <h3>Settings</h3>
+    <p>Enable SMS notifications</p>
     <TwilioForm curUser={curUser} />
     <div className="mb2" />
     <PWABtnProps>
@@ -61,9 +59,7 @@ const SettingsPage = ({ curUser }) => (
 
               return (
                 <React.Fragment>
-                  <Subtitle
-                    text="Enable Push notifications"
-                  />
+                  <p>Enable Push notifications</p>
                   {subscribed ? (
                     <UnsubscribeBtn
                       disabled={disabled}

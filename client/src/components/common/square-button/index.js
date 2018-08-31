@@ -34,7 +34,7 @@ Button.propTypes = {
 const SquareButton = ({ text, icon: Icon, ...rest }) => (
   <Button
     type="button"
-    className="flex items-center justify-center"
+    className="flex items-center justify-center m1"
     {...rest}
   >
     <div className="flex-column">

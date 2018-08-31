@@ -10,8 +10,9 @@ import userFragment from '../../graphql/user/fragment/user';
 import postEventMutation from '../../graphql/event/mutation/post-event';
 import TwilioForm from '../../components/twilio-form';
 import PanicBtn from '../../components/panic-btn';
-import SettingsBtn from '../../components/settings-btn';
 import ArmDisarmBtn from '../../components/arm-disarm-btn';
+import SettingsBtn from '../../components/settings-btn';
+import ConsoleBtn from '../../components/console-btn';
 import Console from '../../components/console';
 import EventsList from '../../components/events-list';
 import ClearEventsBtn from '../../components/clear-events-btn';
@@ -73,7 +74,7 @@ class HomePage extends React.PureComponent {
     return (
       <React.Fragment>
         {!curUser.cannonId && (
-          <Alert type="error" content="Please, associate your accoutn with a Fog Cannon" />
+          <Alert type="error" content="Please, associate your account with a Fog Cannon" />
         )}
         <div className="flex flex-wrap justify-around p2">
           <PanicBtn
@@ -87,25 +88,7 @@ class HomePage extends React.PureComponent {
           <SettingsBtn
             curUser={curUser}
           />
-          {/* <h3>Outcomming HTTP requests</h3>
-          <Console
-            cannonId={cannonId}
-            eventType={eventType}
-            eventValue={eventValue}
-            httpRes={httpRes}
-          />
-          <div className="mb2" />
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={this.handleClearConsoleClick}
-          >
-            Clear console
-          </Button>
-          <div className="mb2" />
-          <h3>Incomming HTTP requests - <ClearEventsBtn /></h3>
-          <EventsList />
-          <div className="mb2" /> */}
+          <ConsoleBtn />
         </div>
       </React.Fragment>
     );
@@ -113,12 +96,8 @@ class HomePage extends React.PureComponent {
 }
 
 HomePage.propTypes = {
-  curUser: propType(userFragment),
+  curUser: propType(userFragment).isRequired,
   postEvent: PropTypes.func.isRequired,
-};
-
-HomePage.defaultProps = {
-  curUser: null,
 };
 
 // Apollo integration

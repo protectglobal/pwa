@@ -6,6 +6,7 @@ import { ScrollToTop, RouteWithProps, LoggedInRoute } from './components/route-w
 import LoginPage from './pages/login-page';
 import HomePage from './pages/home-page';
 import SettingsPage from './pages/settings-page';
+import ConsolePage from './pages/console-page';
 import NotFoundPage from './pages/not-found-page';
 
 //------------------------------------------------------------------------------
@@ -27,6 +28,14 @@ const Routes = props => (
         exact
         path="/settings"
         component={SettingsPage}
+        overlay={LoginPage}
+        {...props}
+      />
+      {/* CONSOLE */}
+      <LoggedInRoute
+        exact
+        path="/console"
+        component={ConsolePage}
         overlay={LoginPage}
         {...props}
       />
