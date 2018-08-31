@@ -20,6 +20,7 @@ const errorHandling = require('./src/middlewares/error');
 const login = require('./src/routes/login');
 const events = require('./src/routes/events');
 const hello = require('./src/routes/hello');
+const counter = require('./src/routes/counter');
 
 // Extend Joi validator by adding objectId type
 Joi.objectId = require('joi-objectid')(Joi);
@@ -146,6 +147,7 @@ server.applyMiddleware({ app, path: '/graphql' });
 app.use('/api/login', login);
 app.use('/api/events', events);
 app.use('/api/hello', hello);
+app.use('/api/counter', counter);
 
 //------------------------------------------------------------------------------
 // ERROR HANDLING MIDDLEWARE
