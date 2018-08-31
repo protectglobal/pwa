@@ -1,19 +1,30 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { host } from 'storybook-host';
-import Alert from './index';
+import ButtonLink from './index';
 
-storiesOf('Alert', module)
+storiesOf('ButtonLink', module)
   .addDecorator(host({
     align: 'center middle',
     width: '60%',
   }))
-  .add('Alert success', () => (
-    <Alert type="success" content="I'm the content" />
+  .add('ButtonLink default', () => (
+    <ButtonLink>
+      I&apos;m the content
+    </ButtonLink>
   ))
-  .add('Alert error', () => (
-    <Alert type="error" content="I'm the content" />
+  .add('ButtonLink disabled', () => (
+    <ButtonLink disabled>
+      I&apos;m the content
+    </ButtonLink>
   ))
-  .add('Alert no content', () => (
-    <Alert type="error" content="" />
+  .add('ButtonLink no underline', () => (
+    <ButtonLink underline={false}>
+      I&apos;m the content
+    </ButtonLink>
+  ))
+  .add('ButtonLink no underline disabled', () => (
+    <ButtonLink underline={false} disabled>
+      I&apos;m the content
+    </ButtonLink>
   ));
