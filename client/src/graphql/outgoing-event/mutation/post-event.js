@@ -1,8 +1,7 @@
 import gql from 'graphql-tag';
 
-// TODO: probably return full response from POST request
 const postEventMutation = gql`
-  mutation postEvent($event: EventInput!) {
+  mutation postEvent($event: OutgoingEventInput!) {
     postEvent(event: $event) {
       status
     }

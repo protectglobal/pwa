@@ -1,25 +1,26 @@
 const typeDefs = `
-  type Event {
+  type OutgoingEvent {
     _id: ID!
     createdAt: Date!
+    userId: ID!
     cannonId: String!
     eventType: String!
     eventValue: [String]!
   }
 
-  input EventInput {
+  input OutgoingEventInput {
+    userId: ID!
     cannonId: String!
     eventType: String!
     eventValue: String!
   }
 
   type Query {
-    events: [Event]!
+    outgoingEvents: [OutgoingEvent]!
   }
 
   type Mutation {
-    postEvent(event: EventInput!): Response!
-    clearEvents: Response!
+    postEvent(event: OutgoingEventInput!): Response!
   }
 `;
 

@@ -8,20 +8,22 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import eventFragment from '../../graphql/event/fragment/event';
-import eventsQuery from '../../graphql/event/query/events';
+import incomingEventFragment from '../../graphql/incoming-event/fragment/incoming-event';
+import incomingEventsQuery from '../../graphql/incoming-event/query/incoming-events';
 
 //------------------------------------------------------------------------------
 // STYLE:
 //------------------------------------------------------------------------------
 const Container = styled.div`
-  border: 1px solid rgba(224, 224, 224, 1);;
+  border: 1px solid rgba(224, 224, 224, 1);
+  max-height: 400px;
+  overflow: auto;
 `;
 //------------------------------------------------------------------------------
 // COMPONENT:
 //------------------------------------------------------------------------------
-const EventsList = ({ eventsData }) => {
-  const { loading, error, events } = eventsData;
+const IncomingEventsList = ({ incomingEventsData }) => {
+  const { loading, error, events } = incomingEventsData;
 
   if (loading) {
     return <p>Loading ...</p>;
@@ -65,20 +67,20 @@ const EventsList = ({ eventsData }) => {
   );
 };
 
-EventsList.propTypes = {
-  eventsData: PropTypes.shape({
+IncomingEventsList.propTypes = {
+  incomingEventsData: PropTypes.shape({
     error: PropTypes.object,
     loading: PropTypes.bool.isRequired,
-    events: PropTypes.arrayOf(propType(eventFragment)),
+    events: PropTypes.arrayOf(propType(incomingEventFragment)),
     refetch: PropTypes.func.isRequired,
   }).isRequired,
 };
 
-const withData = graphql(eventsQuery, {
-  name: 'eventsData',
+const withData = graphql(incomingEventsQuery, {
+  name: 'incomingEventsData',
   options: {
     pollInterval: 1000,
   },
 });
 
-export default withData(EventsList);
+export default withData(IncomingEventsList);

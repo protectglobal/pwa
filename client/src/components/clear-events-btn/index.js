@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { graphql } from 'react-apollo';
+// import { graphql } from 'react-apollo';
 import Button from '@material-ui/core/Button';
-import clearEventsMutation from '../../graphql/event/mutation/clear-events';
+// import clearEventsMutation from '../../graphql/event/mutation/clear-events';
 
 //------------------------------------------------------------------------------
 // COMPONENT:
@@ -10,11 +10,12 @@ import clearEventsMutation from '../../graphql/event/mutation/clear-events';
 // TODO: we should probably don't delete event from DB but from browser mem
 class ClearEventsBtn extends React.PureComponent {
   handleClick = async () => {
-    const { clearEvents } = this.props;
+    // const { clearEvents } = this.props;
 
     // Clear events list
     try {
-      await clearEvents({});
+      // await clearEvents({});
+      console.log('IMPLEMENT THIS!! clear events from Redux store');
     } catch (exc) {
       console.log('exc', exc);
     }
@@ -34,10 +35,11 @@ class ClearEventsBtn extends React.PureComponent {
 }
 
 ClearEventsBtn.propTypes = {
-  clearEvents: PropTypes.func.isRequired,
+  // clearEvents: PropTypes.func.isRequired,
 };
 
 // Apollo integration
-const withMutation = graphql(clearEventsMutation, { name: 'clearEvents' });
+// const withMutation = graphql(clearEventsMutation, { name: 'clearEvents' });
 
-export default withMutation(ClearEventsBtn);
+// export default withMutation(ClearEventsBtn);
+export default ClearEventsBtn;

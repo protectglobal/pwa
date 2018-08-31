@@ -1,4 +1,5 @@
 const request = require('request-promise-native');
+const { OutgoingEvent } = require('../../../../models');
 
 const { VFC_URL } = process.env;
 
@@ -12,6 +13,14 @@ const postEvent = async (root, args) => {
     body: event,
     json: true, // Automatically stringifies the body to JSON
   };
+
+  // Log outgoing event
+  /* try {
+    const log = new OutgoingEvent(event);
+    await log.save();
+  } catch (exc) {
+    console.log(exc);
+  } */
 
   try {
     const res = await request(options); // parsedBody

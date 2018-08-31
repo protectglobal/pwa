@@ -2,26 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { graphql } from 'react-apollo';
 import { propType } from 'graphql-anywhere';
-import pick from 'lodash/pick';
-import styled from 'styled-components';
-import Button from '@material-ui/core/Button';
-import { PWABtnProps, FormProps } from '../../render-props';
+// import pick from 'lodash/pick';
 import userFragment from '../../graphql/user/fragment/user';
-import postEventMutation from '../../graphql/event/mutation/post-event';
-import TwilioForm from '../../components/twilio-form';
+import postEventMutation from '../../graphql/outgoing-event/mutation/post-event';
 import PanicBtn from '../../components/panic-btn';
 import ArmDisarmBtn from '../../components/arm-disarm-btn';
 import SettingsBtn from '../../components/settings-btn';
 import ConsoleBtn from '../../components/console-btn';
-import Console from '../../components/console';
-import EventsList from '../../components/events-list';
-import ClearEventsBtn from '../../components/clear-events-btn';
-import SubscribeBtn from '../../components/pwa/subscribe-btn';
-import UnsubscribeBtn from '../../components/pwa/unsubscribe-btn';
-import PushBtn from '../../components/pwa/push-btn';
 import Feedback from '../../components/common/feedback';
 import Alert from '../../components/common/alert';
-import Loading from '../../components/common/loading';
 
 //------------------------------------------------------------------------------
 // CONSTANTS:
@@ -38,22 +27,24 @@ const INIT_STATE = {
 class HomePage extends React.PureComponent {
   state = Object.assign({}, INIT_STATE)
 
-  handleEventPost = async (event) => {
+  handlePostEvent = async (event) => {
     const { postEvent } = this.props;
 
-    // Display fault code on console
-    this.setState(pick(event, ['cannonId', 'eventType', 'eventValue']));
+    // TODO: store response into redux store
+    // Display outgoing event on console
+    // const fields = ['userId', 'cannonId', 'eventType', 'eventValue'];
+    // this.setState(pick(event, fields));
 
     // Fire POST request to PWA and wait for response
     try {
-      const res = await postEvent({
-        variables: { event },
-      });
+      const res = await postEvent({ variables: { event } });
       console.log('res', res);
-      this.setState({ httpRes: res });
+      // TODO: store response into redux store
+      // this.setState({ httpRes: res });
     } catch (exc) {
       console.log('exc', exc);
-      this.setState({ httpRes: exc });
+      // TODO: store response into redux store
+      // this.setState({ httpRes: exc });
     }
   }
 
@@ -63,12 +54,6 @@ class HomePage extends React.PureComponent {
 
   render() {
     const { curUser } = this.props;
-    const {
-      cannonId,
-      eventType,
-      eventValue,
-      httpRes,
-    } = this.state;
 
     // TODO: use FormProps to disable btns
     return (
@@ -83,11 +68,11 @@ class HomePage extends React.PureComponent {
         <div className="flex flex-wrap justify-around p2">
           <PanicBtn
             curUser={curUser}
-            onClick={this.handleEventPost}
+            onClick={this.handlePostEvent}
           />
           <ArmDisarmBtn
             curUser={curUser}
-            onClick={this.handleEventPost}
+            onClick={this.handlePostEvent}
           />
           <SettingsBtn
             curUser={curUser}

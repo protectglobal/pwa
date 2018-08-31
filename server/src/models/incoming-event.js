@@ -6,7 +6,7 @@ const schema = mongoose.Schema({
     default: Date.now,
   },
   cannonId: {
-    type: String,
+    type: String, // TODO: mongoose.Types.ObjectId
     required: [true, 'Cannon id required'],
   },
   eventType: {
@@ -20,6 +20,7 @@ const schema = mongoose.Schema({
   },
 });
 
-const Event = mongoose.model('Event', schema);
+const IncomingEvent = mongoose.model('IncomingEvent', schema);
 
-module.exports = Event;
+module.exports = IncomingEvent;
+
