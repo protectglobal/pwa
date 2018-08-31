@@ -33,6 +33,10 @@ const schema = mongoose.Schema({
   ip: {
     type: String,
   },
+  cannonId: {
+    type: String, // TODO: ID
+    default: '1', // TODO: get this value by comparing user and cannon IP's
+  },
   phone: {
     type: String,
     minlength: MIN_STRING_LENGTH,

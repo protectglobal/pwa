@@ -3,6 +3,7 @@ const typeDefs = `
     _id: ID!
     createdAt: Date!
     ip: String
+    cannonId: String # TODO: ID
     email: String!
     phone: String
   }

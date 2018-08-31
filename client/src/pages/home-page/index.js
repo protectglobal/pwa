@@ -74,7 +74,11 @@ class HomePage extends React.PureComponent {
     return (
       <React.Fragment>
         {!curUser.cannonId && (
-          <Alert type="error" content="Please, associate your account with a Fog Cannon" />
+          <Alert
+            type="error"
+            content="We couldn't find any Fog Cannon in your net.
+            Please, make sure your are connected to the same net as your cannon."
+          />
         )}
         <div className="flex flex-wrap justify-around p2">
           <PanicBtn
