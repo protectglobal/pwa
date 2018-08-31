@@ -19,6 +19,7 @@ const initDB = require('./src/models/init-db');
 const errorHandling = require('./src/middlewares/error');
 const login = require('./src/routes/login');
 const events = require('./src/routes/events');
+const hello = require('./src/routes/hello');
 
 // Extend Joi validator by adding objectId type
 Joi.objectId = require('joi-objectid')(Joi);
@@ -26,9 +27,19 @@ Joi.objectId = require('joi-objectid')(Joi);
 //------------------------------------------------------------------------------
 // UNCAUGHT EXCEPTIONS
 //------------------------------------------------------------------------------
-process.on('uncaughtException', (exc) => {
-  logger.error(exc.message || 'No msg field', console.log);
-});
+const handleException = async (exc) => {
+  await logger.error(exc.message || 'No msg field', console.log);
+  // Something bad happened, kill the process and then restart fresh
+  // TODO: use other winston transports
+  process.exit(1);
+};
+
+process.on('uncaughtException', handleException);
+process.on('unhandledRejection', handleException);
+
+
+// const p = Promise.reject(new Error('Ive been rejected :('));
+// p.then(() => { console.log('done'); });
 
 //------------------------------------------------------------------------------
 // ENV VARS
@@ -134,6 +145,7 @@ server.applyMiddleware({ app, path: '/graphql' });
 // app.use('/api/auth', auth);
 app.use('/api/login', login);
 app.use('/api/events', events);
+app.use('/api/hello', hello);
 
 //------------------------------------------------------------------------------
 // ERROR HANDLING MIDDLEWARE
