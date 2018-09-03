@@ -37,7 +37,6 @@ class HomePage extends React.PureComponent {
     // Fire POST request to PWA and wait for response
     try {
       const res = await postEvent({ variables: { event } });
-      console.log('res', res);
       // Save response into redux store
       setHttpRes(res.data.postEvent);
     } catch (exc) {

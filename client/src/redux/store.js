@@ -1,9 +1,9 @@
 import {
   createStore,
   compose,
-  applyMiddleware,
+  // applyMiddleware,
 } from 'redux';
-import { createLogger } from 'redux-logger'; // DISABLE ON PRODUCTION
+// import { createLogger } from 'redux-logger'; // DISABLE ON PRODUCTION
 import rootReducer from './root-reducer';
 // import DevTools from './dev-tools'; // DISABLE ON PRODUCTION
 
@@ -14,10 +14,10 @@ import rootReducer from './root-reducer';
 // We won't use this really. We have other means for reactivity.
 // 3. store.subscribe(someFunction);
 
-const logger = createLogger();
+// const logger = createLogger();
 
 const enhancers = [
-  applyMiddleware(logger),
+  // applyMiddleware(logger),
   // DevTools.instrument(),
 ];
 
