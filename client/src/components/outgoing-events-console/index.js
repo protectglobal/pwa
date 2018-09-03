@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import styled from 'styled-components';
+import ClearOutgoingEventsBtn from '../clear-outgoing-events-btn';
 
 //------------------------------------------------------------------------------
 // STYLE:
@@ -15,24 +16,33 @@ const Terminal = styled.div`
 //------------------------------------------------------------------------------
 // COMPONENT:
 //------------------------------------------------------------------------------
-const Console = ({
+const OutgoingEventsConsole = ({
   cannonId,
   eventType,
   eventValue,
   httpRes,
 }) => (
-  <Terminal className="p1">
-    {`>> cannonId: ${cannonId}`}
-    <br />
-    {`>> eventType: ${eventType}`}
-    <br />
-    {`>> eventValue: ${eventValue}`}
-    <br />
-    {`>> httpRes: ${(httpRes && !isEmpty(httpRes) && JSON.stringify(httpRes, { indent: true })) || ''}`}
-  </Terminal>
+  <React.Fragment>
+    {/* TERMINAL */}
+    <Terminal className="p1">
+      {`>> cannonId: ${cannonId}`}
+      <br />
+      {`>> eventType: ${eventType}`}
+      <br />
+      {`>> eventValue: ${eventValue}`}
+      <br />
+      {`>> httpRes: ${(httpRes && !isEmpty(httpRes) && JSON.stringify(httpRes, { indent: true })) || ''}`}
+    </Terminal>
+
+    {/* CLEAR BUTTON */}
+    <div className="mb2" />
+    {/* (incomingEvents && incomingEvents.length > 0) && (
+      <ClearOutgoingEventsBtn />
+    ) */}
+  </React.Fragment>
 );
 
-Console.propTypes = {
+OutgoingEventsConsole.propTypes = {
   cannonId: PropTypes.string,
   eventType: PropTypes.oneOf(['panicBtn', '']),
   eventValue: PropTypes.string,
@@ -41,11 +51,11 @@ Console.propTypes = {
   }),
 };
 
-Console.defaultProps = {
+OutgoingEventsConsole.defaultProps = {
   cannonId: '',
   eventType: '',
   eventValue: '',
   httpRes: {},
 };
 
-export default Console;
+export default OutgoingEventsConsole;

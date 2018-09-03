@@ -10,12 +10,13 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import incomingEventFragment from '../../graphql/incoming-event/fragment/incoming-event';
 import incomingEventsQuery from '../../graphql/incoming-event/query/incoming-events';
+import ClearIncomingEventsBtn from '../clear-incoming-events-btn';
 
 //------------------------------------------------------------------------------
 // STYLE:
 //------------------------------------------------------------------------------
 const Container = styled.div`
-  border: 1px solid rgba(224, 224, 224, 1);
+  /* border: 1px solid ${({ theme }) => (theme.color.greyLight)}; */
   max-height: 400px;
   overflow: auto;
 `;
@@ -31,12 +32,10 @@ const IncomingEventsList = ({ incomingEventsData }) => {
   if (error) {
     return <p>{error.message}</p>;
   }
-  if (!incomingEvents || incomingEvents.length === 0) {
-    return <p>No events</p>;
-  }
 
   return (
-    <Container>
+    <React.Fragment>
+      {/* TABLE HEADER */}
       <Table>
         <TableHead>
           <TableRow>
@@ -46,24 +45,39 @@ const IncomingEventsList = ({ incomingEventsData }) => {
             <TableCell>cannonId</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
-          {incomingEvents.map(({
-            _id,
-            createdAt,
-            cannonId,
-            eventType,
-            eventValue,
-          }) => (
-            <TableRow key={_id}>
-              <TableCell>{eventType}</TableCell>
-              <TableCell>{eventValue.toString()}</TableCell>
-              <TableCell>{createdAt}</TableCell>
-              <TableCell>{cannonId}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
       </Table>
-    </Container>
+
+      {/* TABLE BODY */}
+      {(!incomingEvents || incomingEvents.length === 0) && (
+        <p>No events</p>
+      )}
+      <Container>
+        <Table>
+          <TableBody>
+            {incomingEvents.map(({
+              _id,
+              createdAt,
+              cannonId,
+              eventType,
+              eventValue,
+            }) => (
+              <TableRow key={_id}>
+                <TableCell>{eventType}</TableCell>
+                <TableCell>{eventValue.toString()}</TableCell>
+                <TableCell>{createdAt}</TableCell>
+                <TableCell>{cannonId}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </Container>
+
+      {/* CLEAR BUTTON */}
+      <div className="mb2" />
+      {(incomingEvents && incomingEvents.length > 0) && (
+        <ClearIncomingEventsBtn />
+      )}
+    </React.Fragment>
   );
 };
 

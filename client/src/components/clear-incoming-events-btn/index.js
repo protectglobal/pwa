@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button';
 // COMPONENT:
 //------------------------------------------------------------------------------
 // TODO: we should probably don't delete event from DB but from browser mem
-class ClearEventsBtn extends React.PureComponent {
+class ClearIncomingEventsBtn extends React.PureComponent {
   handleClick = async () => {
     // const { clearEvents } = this.props;
 
@@ -34,12 +34,12 @@ class ClearEventsBtn extends React.PureComponent {
   }
 }
 
-ClearEventsBtn.propTypes = {
+ClearIncomingEventsBtn.propTypes = {
   // clearEvents: PropTypes.func.isRequired,
 };
 
 // Apollo integration
 // const withMutation = graphql(clearEventsMutation, { name: 'clearEvents' });
 
-// export default withMutation(ClearEventsBtn);
-export default ClearEventsBtn;
+// export default withMutation(ClearIncomingEventsBtn);
+export default ClearIncomingEventsBtn;
