@@ -10,7 +10,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import incomingEventFragment from '../../graphql/incoming-event/fragment/incoming-event';
 import incomingEventsQuery from '../../graphql/incoming-event/query/incoming-events';
-import ClearIncomingEventsBtn from '../clear-incoming-events-btn';
+// import ClearIncomingEventsBtn from '../clear-incoming-events-btn';
 
 //------------------------------------------------------------------------------
 // STYLE:
@@ -74,9 +74,9 @@ const IncomingEventsList = ({ incomingEventsData }) => {
 
       {/* CLEAR BUTTON */}
       <div className="mb2" />
-      {(incomingEvents && incomingEvents.length > 0) && (
+      {/* (incomingEvents && incomingEvents.length > 0) && (
         <ClearIncomingEventsBtn />
-      )}
+      ) */}
     </React.Fragment>
   );
 };
