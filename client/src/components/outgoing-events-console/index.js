@@ -46,7 +46,7 @@ OutgoingEventsConsole.propTypes = {
   eventType: PropTypes.oneOf(['panicBtn', '']),
   eventValue: PropTypes.string,
   httpRes: PropTypes.shape({
-    status: PropTypes.string,
+    status: PropTypes.number,
   }),
 };
 
