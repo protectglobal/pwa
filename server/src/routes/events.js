@@ -1,7 +1,7 @@
 const express = require('express');
 const castArray = require('lodash/castArray');
 const pick = require('lodash/pick');
-const { User, Subscription, Event } = require('../models');
+const { User, Subscription, IncomingEvent } = require('../models');
 const twilioAPI = require('../services/twilio');
 const pushAPI = require('../services/push');
 const asyncForEach = require('../utils/async-for-each');
@@ -21,7 +21,7 @@ router.post('/', async (req, res) => {
   const { cannonId, eventType, eventValue } = data;
 
   // Store event into events collection
-  const event = new Event({
+  const event = new IncomingEvent({
     cannonId,
     eventType,
     eventValue: eventValue && castArray(eventValue), // make sure eventValue is an array

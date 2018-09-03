@@ -5,6 +5,7 @@ const userFragment = gql`
     _id
     createdAt
     ip
+    cannonId
     email
     phone
   }

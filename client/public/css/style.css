@@ -162,7 +162,13 @@ form {
   display: block;
 }
 
-.menu__list li button, a {
+.menu__list li a {
+  color: white;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+.menu__list li button {
   color: white;
   text-transform: uppercase;
   font-size: 14px;
