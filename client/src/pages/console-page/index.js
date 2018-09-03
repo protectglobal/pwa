@@ -4,6 +4,7 @@ import React from 'react';
 // import { propType } from 'graphql-anywhere';
 import Button from '@material-ui/core/Button';
 // import Console from '../../components/console';
+import Divider from '../../components/common/divider';
 import IncomingEventsList from '../../components/incoming-events-list';
 import ClearEventsBtn from '../../components/clear-events-btn';
 
@@ -31,9 +32,13 @@ const ConsolePage = () => (
       Clear console
     </Button>
 
-    <div className="mb2" />
+    <div className="mb3" />
+    <Divider />
+    <div className="mb3" />
+
     <p>Incoming HTTP requests</p>
     <IncomingEventsList />
+    <div className="mb2" />
     <ClearEventsBtn />
   </div>
 );

@@ -15,12 +15,12 @@ const postEvent = async (root, args) => {
   };
 
   // Log outgoing event
-  /* try {
+  try {
     const log = new OutgoingEvent(event);
     await log.save();
   } catch (exc) {
     console.log(exc);
-  } */
+  }
 
   try {
     const res = await request(options); // parsedBody

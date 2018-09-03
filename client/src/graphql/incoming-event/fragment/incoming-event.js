@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
-const incoimingEventFragment = gql`
-  fragment incoimingEventFragment on IncomingEvent {
+const incomingEventFragment = gql`
+  fragment incomingEventFragment on IncomingEvent {
     _id
     createdAt
     cannonId
@@ -10,4 +10,4 @@ const incoimingEventFragment = gql`
   }
 `;
 
-export default incoimingEventFragment;
+export default incomingEventFragment;

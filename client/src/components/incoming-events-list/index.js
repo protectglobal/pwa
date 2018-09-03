@@ -23,7 +23,7 @@ const Container = styled.div`
 // COMPONENT:
 //------------------------------------------------------------------------------
 const IncomingEventsList = ({ incomingEventsData }) => {
-  const { loading, error, events } = incomingEventsData;
+  const { loading, error, incomingEvents } = incomingEventsData;
 
   if (loading) {
     return <p>Loading ...</p>;
@@ -31,7 +31,7 @@ const IncomingEventsList = ({ incomingEventsData }) => {
   if (error) {
     return <p>{error.message}</p>;
   }
-  if (!events || events.length === 0) {
+  if (!incomingEvents || incomingEvents.length === 0) {
     return <p>No events</p>;
   }
 
@@ -47,7 +47,7 @@ const IncomingEventsList = ({ incomingEventsData }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {events.map(({
+          {incomingEvents.map(({
             _id,
             createdAt,
             cannonId,
@@ -71,7 +71,7 @@ IncomingEventsList.propTypes = {
   incomingEventsData: PropTypes.shape({
     error: PropTypes.object,
     loading: PropTypes.bool.isRequired,
-    events: PropTypes.arrayOf(propType(incomingEventFragment)),
+    incomingEvents: PropTypes.arrayOf(propType(incomingEventFragment)),
     refetch: PropTypes.func.isRequired,
   }).isRequired,
 };

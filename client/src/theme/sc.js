@@ -9,6 +9,7 @@ const theme = {
     successLight: '#cfefdf',
     link: 'rgb(0, 111, 180)',
     black: 'rgb(26, 23, 27)',
+    greyLight: 'rgb(236, 236, 236)',
   },
   fontSize: {
     small: '14px',
