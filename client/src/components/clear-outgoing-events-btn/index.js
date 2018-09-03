@@ -1,21 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { graphql } from 'react-apollo';
+import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
-// import clearEventsMutation from '../../graphql/event/mutation/clear-events';
+import Actions from '../../redux/actions';
 
 //------------------------------------------------------------------------------
 // COMPONENT:
 //------------------------------------------------------------------------------
-// TODO: we should probably don't delete event from DB but from browser mem
 class ClearOutgoingEventsBtn extends React.PureComponent {
-  handleClick = async () => {
-    // const { clearEvents } = this.props;
+  handleClick = () => {
+    const { clearOutgoingEvents } = this.props;
 
-    // Clear events list
     try {
-      // await clearEvents({});
-      console.log('IMPLEMENT THIS!! clear events from Redux store');
+      clearOutgoingEvents();
     } catch (exc) {
       console.log('exc', exc);
     }
@@ -35,11 +32,22 @@ class ClearOutgoingEventsBtn extends React.PureComponent {
 }
 
 ClearOutgoingEventsBtn.propTypes = {
-  // clearEvents: PropTypes.func.isRequired,
+  clearOutgoingEvents: PropTypes.func.isRequired,
 };
 
-// Apollo integration
-// const withMutation = graphql(clearEventsMutation, { name: 'clearEvents' });
+//------------------------------------------------------------------------------
+// REDUX INTEGRATION:
+//------------------------------------------------------------------------------
+const namespace = 'outgoingEvents';
 
-// export default withMutation(ClearOutgoingEventsBtn);
-export default ClearOutgoingEventsBtn;
+const mapDispatchToProps = dispatch => ({
+  clearOutgoingEvents: () => (
+    dispatch(Actions.setInitialState(namespace))
+  ),
+});
+
+// Enhancer function
+const withRedux = connect(null, mapDispatchToProps);
+//------------------------------------------------------------------------------
+
+export default withRedux(ClearOutgoingEventsBtn);

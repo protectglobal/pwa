@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 import styled from 'styled-components';
 import ClearOutgoingEventsBtn from '../clear-outgoing-events-btn';
@@ -25,20 +26,18 @@ const OutgoingEventsConsole = ({
   <React.Fragment>
     {/* TERMINAL */}
     <Terminal className="p1">
-      {`>> cannonId: ${cannonId}`}
+      {`> cannonId: ${cannonId}`}
       <br />
-      {`>> eventType: ${eventType}`}
+      {`> eventType: ${eventType}`}
       <br />
-      {`>> eventValue: ${eventValue}`}
+      {`> eventValue: ${eventValue}`}
       <br />
-      {`>> httpRes: ${(httpRes && !isEmpty(httpRes) && JSON.stringify(httpRes, { indent: true })) || ''}`}
+      {`> httpRes: ${(httpRes && !isEmpty(httpRes) && JSON.stringify(httpRes, { indent: true })) || ''}`}
     </Terminal>
 
     {/* CLEAR BUTTON */}
     <div className="mb2" />
-    {/* (incomingEvents && incomingEvents.length > 0) && (
-      <ClearOutgoingEventsBtn />
-    ) */}
+    <ClearOutgoingEventsBtn />
   </React.Fragment>
 );
 
@@ -58,4 +57,15 @@ OutgoingEventsConsole.defaultProps = {
   httpRes: {},
 };
 
-export default OutgoingEventsConsole;
+//------------------------------------------------------------------------------
+// REDUX INTEGRATION:
+//------------------------------------------------------------------------------
+const namespace = 'outgoingEvents';
+
+const mapStateToProps = state => ({ ...state[namespace] });
+
+// Enhancer function
+const withRedux = connect(mapStateToProps, null);
+//------------------------------------------------------------------------------
+
+export default withRedux(OutgoingEventsConsole);

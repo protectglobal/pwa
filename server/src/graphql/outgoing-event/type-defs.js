@@ -9,7 +9,6 @@ const typeDefs = `
   }
 
   input OutgoingEventInput {
-    userId: ID!
     cannonId: String!
     eventType: String!
     eventValue: String!

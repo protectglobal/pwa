@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import { ApolloProvider } from 'react-apollo';
 import { Router } from 'react-router-dom';
 import createBrowserHistory from 'history/createBrowserHistory';
+import { Provider as ReduxProvider } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import client from '../graphql/config';
+import store from '../redux/store';
 import scTheme from '../theme/sc';
 import muiTheme from '../theme/mui';
 import GlobalDataProvider from '../global-data-provider';
@@ -26,15 +28,17 @@ const history = createBrowserHistory();
 const App = ({ component }) => (
   <ThemeProvider theme={scTheme}>
     <Router history={history}>
-      <ApolloProvider client={client}>
-        <MuiThemeProvider theme={muiTheme}>
-          <GlobalDataProvider>
-            {globalDataProps => (
-              React.createElement(component, { ...globalDataProps })
-            )}
-          </GlobalDataProvider>
-        </MuiThemeProvider>
-      </ApolloProvider>
+      <ReduxProvider store={store}>
+        <ApolloProvider client={client}>
+          <MuiThemeProvider theme={muiTheme}>
+            <GlobalDataProvider>
+              {globalDataProps => (
+                React.createElement(component, { ...globalDataProps })
+              )}
+            </GlobalDataProvider>
+          </MuiThemeProvider>
+        </ApolloProvider>
+      </ReduxProvider>
     </Router>
   </ThemeProvider>
 );

@@ -97,4 +97,5 @@ const withData = graphql(incomingEventsQuery, {
   },
 });
 
+
 export default withData(IncomingEventsList);

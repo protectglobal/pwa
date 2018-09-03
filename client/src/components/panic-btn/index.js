@@ -53,4 +53,5 @@ PanicBtn.defaultProps = {
   onClick: () => {},
 };
 
+
 export default PanicBtn;
