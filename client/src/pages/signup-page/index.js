@@ -33,7 +33,7 @@ class SignupPage extends React.PureComponent {
 
     const loginLink = (
       <ButtonLink onClick={() => { onPageChange('login'); }}>
-        Sign Up
+        Log In
       </ButtonLink>
     );
 
@@ -103,7 +103,7 @@ class SignupPage extends React.PureComponent {
                           // Store current user's email and fire signup api call
                           this.setState(
                             { email: formInput.email },
-                            () => { onFormSuccess({ email }); },
+                            () => { onFormSuccess({ email: formInput.email }); },
                           );
                         }}
                       />

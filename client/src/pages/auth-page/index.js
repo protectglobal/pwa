@@ -11,7 +11,7 @@ import LoginPage from '../login-page';
 // which will result in redirecting the user to home page automatically.
 class AuthPage extends React.PureComponent {
   state = {
-    page: 'login',
+    page: 'signup', // 'login',
   }
 
   handlePageChange = (page) => {

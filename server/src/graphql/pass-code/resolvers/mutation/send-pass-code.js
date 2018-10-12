@@ -25,10 +25,15 @@ const sendPassCode = async (root, args, context) => {
   console.log('sendPassCode context.usr', usr);
 
   // Is there any user associated to this email?
-  const userExists = !!(await User.findOne({ email }));
+  const user = !!(await User.findOne({ email }));
+
+  if (!user) {
+    // return { status: 500 };
+    throw new Error('User not found');
+  }
 
   // If no, create a new user record before sending the pass code
-  if (!userExists) {
+  /* if (!userExists) {
     const newUser = { email, ip: usr.ip };
 
     const { error } = validateNewUser(newUser);
@@ -44,7 +49,7 @@ const sendPassCode = async (root, args, context) => {
       console.log(exc);
       return { status: 500 };
     }
-  }
+  } */
 
   // Genearte a 6-digit pass code and store it into DB
   const passCode = genPassCode(6);

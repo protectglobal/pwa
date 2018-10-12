@@ -94,7 +94,7 @@ class LoginPage extends React.PureComponent {
                       // Store current user's email and fire signup api call
                       this.setState(
                         { email: formInput.email },
-                        () => { sendPassCode({ email }); },
+                        () => { sendPassCode({ email: formInput.email }); },
                       );
                     }}
                   />

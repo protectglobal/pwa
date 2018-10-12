@@ -1,4 +1,4 @@
-const express = require('express');
+/* const express = require('express');
 const pick = require('lodash/pick');
 const bcrypt = require('bcrypt');
 const { User, validateLogin } = require('../models');
@@ -36,4 +36,4 @@ router.post('/', async (req, res) => {
   res.status(200).send(token); // Success request
 });
 
-module.exports = router;
+module.exports = router; */

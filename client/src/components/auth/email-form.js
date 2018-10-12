@@ -10,7 +10,7 @@ import isEmail from 'validator/lib/isEmail';
 //------------------------------------------------------------------------------
 class EmailForm extends React.Component {
   state = {
-    email: '',
+    email: 'federodes@gmail.com', // '',
     errors: { email: [] },
   }
 

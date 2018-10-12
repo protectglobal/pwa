@@ -8,14 +8,12 @@ import sendPassCodeMutation from '../../graphql/pass-code/mutation/send-pass-cod
 //------------------------------------------------------------------------------
 class SendPassCode extends React.PureComponent {
   handleSend = async ({ email }) => {
-    console.log('SEND PASS CODE', email);
     const { onSendError, onSendSuccess, sendPassCode } = this.props;
 
     try {
       await sendPassCode({ variables: { email } });
       onSendSuccess();
     } catch (exc) {
-      console.log(exc);
       onSendError(exc);
     }
   }

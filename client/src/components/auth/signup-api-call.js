@@ -9,6 +9,7 @@ const isNotProduction = NODE_ENV !== 'production';
 //------------------------------------------------------------------------------
 class SignupApiCall extends React.PureComponent {
   handleSuccess = async ({ email }) => {
+    console.log('SIGNUP API CALL', email);
     const { onSignupSuccess, onSignupError } = this.props;
 
     const data = {
@@ -26,7 +27,7 @@ class SignupApiCall extends React.PureComponent {
     try {
       // TODO: create user record. Set emailVerified to false
       const res = await fetch('/api/signup', data);
-      console.log('\nres', res);
+      console.log('\nres2', res);
       if (res.status !== 200) {
         const resText = await res.text();
         console.log('resText', resText);
@@ -47,7 +48,7 @@ class SignupApiCall extends React.PureComponent {
         }
       }
       console.log('\nTOKEN', token); */
-      onSignupSuccess();
+      onSignupSuccess({ email });
     } catch (exc) {
       console.log(exc);
       onSignupError(exc);
