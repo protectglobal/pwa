@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import { propType } from 'graphql-anywhere';
 import userFragment from './graphql/user/fragment/user';
 import { ScrollToTop, RouteWithProps, LoggedInRoute } from './components/route-wrappers';
-import LoginPage from './pages/login-page';
+import AuthPage from './pages/auth-page';
 import HomePage from './pages/home-page';
 import SettingsPage from './pages/settings-page';
 import ConsolePage from './pages/console-page';
@@ -20,7 +20,7 @@ const Routes = props => (
         exact
         path="/"
         component={HomePage}
-        overlay={LoginPage}
+        overlay={AuthPage}
         {...props}
       />
       {/* SETTINGS */}
@@ -28,7 +28,7 @@ const Routes = props => (
         exact
         path="/settings"
         component={SettingsPage}
-        overlay={LoginPage}
+        overlay={AuthPage}
         {...props}
       />
       {/* CONSOLE */}
@@ -36,7 +36,7 @@ const Routes = props => (
         exact
         path="/console"
         component={ConsolePage}
-        overlay={LoginPage}
+        overlay={AuthPage}
         {...props}
       />
       {/* <RouteWithProps

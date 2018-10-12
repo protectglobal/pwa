@@ -12,6 +12,7 @@ import LoginApiCall from '../../components/auth/login-api-call';
 import ResendPassCodeBtn from '../../components/auth/resend-pass-code-btn';
 import AuthPageLayout from '../../layouts/auth-page';
 import Feedback from '../../components/common/feedback';
+import ButtonLink from '../../components/common/button-link';
 
 //------------------------------------------------------------------------------
 // COMPONENT:
@@ -27,8 +28,14 @@ class SignupPage extends React.PureComponent {
   }
 
   render() {
-    const { client } = this.props;
+    const { client, onPageChange } = this.props;
     const { view, email } = this.state;
+
+    const loginLink = (
+      <ButtonLink onClick={() => { onPageChange('login'); }}>
+        Sign Up
+      </ButtonLink>
+    );
 
     return (
       <FormProps>
@@ -44,9 +51,10 @@ class SignupPage extends React.PureComponent {
         }) => (
           <AuthPageLayout
             title={view === 'emailView' ? 'Sign Up' : 'Enter Pass Code'}
-            subtitle={view === 'passCodeView' ? 'Haven\'t received the pass code?' : ''}
-            link={view === 'passCodeView'
-              ? (
+            subtitle={view === 'emailView' ? 'Already have an account?' : 'Haven\'t received the pass code?'}
+            link={view === 'emailView'
+              ? loginLink
+              : (
                 <ResendPassCodeBtn
                   email={email}
                   label="Resend it"
@@ -62,7 +70,6 @@ class SignupPage extends React.PureComponent {
                   }}
                 />
               )
-              : null
             }
           >
             {view === 'emailView' && (
@@ -149,6 +156,7 @@ SignupPage.propTypes = {
   client: PropTypes.shape({
     resetStore: PropTypes.func.isRequired,
   }).isRequired,
+  onPageChange: PropTypes.func,
 };
 
 export default withApollo(SignupPage);

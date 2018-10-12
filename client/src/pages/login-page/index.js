@@ -11,6 +11,7 @@ import LoginApiCall from '../../components/auth/login-api-call';
 import ResendPassCodeBtn from '../../components/auth/resend-pass-code-btn';
 import AuthPageLayout from '../../layouts/auth-page';
 import Feedback from '../../components/common/feedback';
+import ButtonLink from '../../components/common/button-link';
 
 //------------------------------------------------------------------------------
 // COMPONENT:
@@ -26,8 +27,14 @@ class LoginPage extends React.PureComponent {
   }
 
   render() {
-    const { client } = this.props;
+    const { client, onPageChange } = this.props;
     const { view, email } = this.state;
+
+    const signupLink = (
+      <ButtonLink onClick={() => { onPageChange('signup'); }}>
+        Sign Up
+      </ButtonLink>
+    );
 
     return (
       <FormProps>
@@ -43,9 +50,10 @@ class LoginPage extends React.PureComponent {
         }) => (
           <AuthPageLayout
             title={view === 'emailView' ? 'Log In' : 'Enter Pass Code'}
-            subtitle={view === 'passCodeView' ? 'Haven\'t received the pass code?' : ''}
-            link={view === 'passCodeView'
-              ? (
+            subtitle={view === 'emailView' ? 'Don\'t have an account?' : 'Haven\'t received the pass code?'}
+            link={view === 'emailView'
+              ? signupLink
+              : (
                 <ResendPassCodeBtn
                   email={email}
                   label="Resend it"
@@ -61,7 +69,6 @@ class LoginPage extends React.PureComponent {
                   }}
                 />
               )
-              : null
             }
           >
             {view === 'emailView' && (
@@ -74,7 +81,6 @@ class LoginPage extends React.PureComponent {
                     setSuccessMessage('A new email has been sent to your inbox!');
                     // Switch to passCodeView view
                     this.setState({ view: 'passCodeView' });
-                    // TODO: need to send passCode
                   });
                 }}
               >
@@ -139,6 +145,11 @@ LoginPage.propTypes = {
   client: PropTypes.shape({
     resetStore: PropTypes.func.isRequired,
   }).isRequired,
+  onPageChange: PropTypes.func,
+};
+
+LoginPage.defaultProps = {
+  onPageChange: () => {},
 };
 
 export default withApollo(LoginPage);
