@@ -6,6 +6,7 @@ import { FormProps } from '../../render-props';
 // import SEO from '../../components/smart/seo';
 import EmailForm from '../../components/auth/email-form';
 import PassCodeForm from '../../components/auth/pass-code-form';
+import SignupApiCall from '../../components/auth/signup-api-call';
 import SendPassCode from '../../components/auth/send-pass-code';
 import LoginApiCall from '../../components/auth/login-api-call';
 import ResendPassCodeBtn from '../../components/auth/resend-pass-code-btn';
@@ -17,9 +18,9 @@ import Feedback from '../../components/common/feedback';
 //------------------------------------------------------------------------------
 // After PassCodeAuthView returns successful, the user logged-in-state will change
 // from 'logged out' to 'logged in' automatically. This will trigger the
-// LoggedOutRoute component's logic (said component wraps the LoginPage component)
+// LoggedOutRoute component's logic (said component wraps the SignupPage component)
 // which will result in redirecting the user to home page automatically.
-class LoginPage extends React.PureComponent {
+class SignupPage extends React.PureComponent {
   state = {
     view: 'emailView',
     email: '',
@@ -42,7 +43,7 @@ class LoginPage extends React.PureComponent {
           handleSuccess,
         }) => (
           <AuthPageLayout
-            title={view === 'emailView' ? 'Log In' : 'Enter Pass Code'}
+            title={view === 'emailView' ? 'Sign Up' : 'Enter Pass Code'}
             subtitle={view === 'passCodeView' ? 'Haven\'t received the pass code?' : ''}
             link={view === 'passCodeView'
               ? (
@@ -79,19 +80,28 @@ class LoginPage extends React.PureComponent {
                 }}
               >
                 {({ sendPassCode }) => (
-                  <EmailForm
-                    btnLabel="Send Pass Code"
-                    disabled={disabled}
-                    onBeforeHook={handleBefore}
-                    onClientErrorHook={handleClientError}
-                    onSuccessHook={(formInput) => {
-                      // Store current user's email and fire signup api call
-                      this.setState(
-                        { email: formInput.email },
-                        () => { sendPassCode({ email }); },
-                      );
+                  <SignupApiCall
+                    onSignupError={handleServerError}
+                    onSignupSuccess={(credentials) => {
+                      sendPassCode({ email: credentials.email });
                     }}
-                  />
+                  >
+                    {({ onFormSuccess }) => (
+                      <EmailForm
+                        btnLabel="Send Pass Code"
+                        disabled={disabled}
+                        onBeforeHook={handleBefore}
+                        onClientErrorHook={handleClientError}
+                        onSuccessHook={(formInput) => {
+                          // Store current user's email and fire signup api call
+                          this.setState(
+                            { email: formInput.email },
+                            () => { onFormSuccess({ email }); },
+                          );
+                        }}
+                      />
+                    )}
+                  </SignupApiCall>
                 )}
               </SendPassCode>
             )}
@@ -135,14 +145,13 @@ class LoginPage extends React.PureComponent {
   }
 }
 
-LoginPage.propTypes = {
+SignupPage.propTypes = {
   client: PropTypes.shape({
     resetStore: PropTypes.func.isRequired,
   }).isRequired,
 };
 
-export default withApollo(LoginPage);
-
+export default withApollo(SignupPage);
 
 /*
 import React from 'react';
@@ -164,9 +173,9 @@ import Feedback from '../../components/common/feedback';
 //------------------------------------------------------------------------------
 // After PassCodeAuthView returns successful, the user logged-in-state will change
 // from 'logged out' to 'logged in' automatically. This will trigger the
-// LoggedOutRoute component's logic (said component wraps the LoginPage component)
+// LoggedOutRoute component's logic (said component wraps the SignupPage component)
 // which will result in redirecting the user to home page automatically.
-class LoginPage extends React.PureComponent {
+class SignupPage extends React.PureComponent {
   state = {
     view: 'emailView',
     email: '',
@@ -189,7 +198,7 @@ class LoginPage extends React.PureComponent {
           handleSuccess,
         }) => (
           <AuthPageLayout
-            title={view === 'emailView' ? 'Log In' : 'Enter Pass Code'}
+            title={view === 'emailView' ? 'Sign Up' : 'Enter Pass Code'}
             subtitle={view === 'passCodeView' ? 'Haven\'t received the pass code?' : ''}
             link={view === 'passCodeView'
               ? (
@@ -267,12 +276,12 @@ class LoginPage extends React.PureComponent {
   }
 }
 
-LoginPage.propTypes = {
+SignupPage.propTypes = {
   client: PropTypes.shape({
     resetStore: PropTypes.func.isRequired,
   }).isRequired,
 };
 
-export default withApollo(LoginPage);
+export default withApollo(SignupPage);
 
 */

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { propType } from 'graphql-anywhere';
 import userFragment from '../../graphql/user/fragment/user';
 import Constants from '../../constants';
-import { LogoutBtn } from '../auth';
+import LogoutBtn from '../auth/logout-btn';
 
 //------------------------------------------------------------------------------
 // COMPONENT:
