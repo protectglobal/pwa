@@ -89,8 +89,8 @@ class SignupPage extends React.PureComponent {
                 {({ sendPassCode }) => (
                   <SignupApiCall
                     onSignupError={handleServerError}
-                    onSignupSuccess={(credentials) => {
-                      sendPassCode({ email: credentials.email });
+                    onSignupSuccess={(newUser) => {
+                      sendPassCode({ email: newUser.email });
                     }}
                   >
                     {({ onFormSuccess }) => (

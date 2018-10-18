@@ -17,6 +17,14 @@ router.post('/', async (req, res) => {
     return;
   }
 
+  // Make sure user doesn't exist already
+  const userExists = !!(await User.findOne({ email: newUser.email }));
+  console.log('User exists', newUser.email);
+  if (userExists) {
+    res.status(400).send('Email registered already'); // Bad request
+    return;
+  }
+
   try {
     const user = new User(newUser);
     await user.save();
