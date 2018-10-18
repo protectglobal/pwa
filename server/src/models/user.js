@@ -30,6 +30,10 @@ const schema = mongoose.Schema({
     required: [true, 'Email address is required'],
     validate: [isEmail, 'Please fill a valid email address'],
   },
+  emailVerified: {
+    type: Boolean,
+    default: false,
+  },
   ip: {
     type: String,
   },
