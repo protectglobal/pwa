@@ -32,37 +32,34 @@ const sendPassCode = async (root, args, context) => {
     throw new Error('User not found');
   }
 
-  // If no, create a new user record before sending the pass code
-  /* if (!userExists) {
-    const newUser = { email, ip: usr.ip };
-
-    const { error } = validateNewUser(newUser);
-    if (error) {
-      console.error(error);
-      return { status: 500 };
-    }
-
-    try {
-      const user = new User(newUser);
-      await user.save();
-    } catch (exc) {
-      console.log(exc);
-      return { status: 500 };
-    }
-  } */
-
   // Genearte a 6-digit pass code and store it into DB
   const passCode = genPassCode(6);
 
+  // Check if pass code record exists. If no, add it. Otherwise, edit it.
+  try {
+    const record = await PassCode.findOne({ email });
+    if (!record) {
+      const newRecord = new PassCode({ email, passCode });
+      await newRecord.save();
+    } else {
+      record.passCode = passCode;
+      await record.save();
+    }
+  } catch (exc) {
+    console.error(exc);
+  }
+
+  /*
   try {
     await PassCode.findOneAndUpdate(
       { email },
-      { $set: { passCode } },
+      { $set: { passCode, expirationDate: new Date() } },
       { upsert: true, new: true },
     );
   } catch (exc) {
     console.error(exc);
   }
+  */
 
   // Send pass code to user
   const mailOptions = {

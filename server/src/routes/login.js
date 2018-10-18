@@ -30,6 +30,12 @@ router.post('/', async (req, res) => {
     return;
   }
 
+  // Check expirationDate
+  if (record.expired()) {
+    res.status(400).send('Pass code has expired'); // Bad request
+    return;
+  }
+
   // Set emailVerifield field to 'true'
   await User.update({ _id: user._id }, { $set: { emailVerified: true } }).exec();
 
