@@ -88,6 +88,8 @@ class PinCodeForm extends React.Component {
     const { btnLabel, disabled } = this.props;
     const { pinCode, errors } = this.state;
 
+    const pinCodeErrors = ErrorHandling.getFieldErrors(errors, 'pinCode');
+
     return (
       <form
         onSubmit={this.handleSubmit}
@@ -102,12 +104,8 @@ class PinCodeForm extends React.Component {
           onChange={this.handleChange}
           margin="normal"
           fullWidth
-          error={ErrorHandling.getFieldErrors(errors, 'pinCode').length > 0}
-          helperText={
-            ErrorHandling.getFieldErrors(errors, 'pinCode').length > 0
-              ? ErrorHandling.getFieldErrors(errors, 'pinCode')
-              : ''
-          }
+          error={pinCodeErrors.length > 0}
+          helperText={pinCodeErrors || ''}
         />
         <div className="mb2" />
         <Button

@@ -4,6 +4,7 @@ const { User, validatePinCode } = require('../../../../models');
 const savePinCode = async (root, args, context) => {
   const { pinCode } = args;
   const { usr } = context;
+  console.log('savePinCode', pinCode);
 
   // TODO: use middleware
   // Users.utils.checkLoggedInAndVerified(userId);
@@ -14,7 +15,7 @@ const savePinCode = async (root, args, context) => {
 
   const { error } = validatePinCode({ pinCode });
   if (error) {
-    console.error(error);
+    console.error(error.details[0].message);
     throw new Error(400, error.details[0].message); // Bad request
   }
 

@@ -88,6 +88,8 @@ class PassCodeForm extends React.Component {
     const { btnLabel, disabled } = this.props;
     const { passCode, errors } = this.state;
 
+    const passCodeErrors = ErrorHandling.getFieldErrors(errors, 'passCode');
+
     return (
       <form
         onSubmit={this.handleSubmit}
@@ -102,12 +104,8 @@ class PassCodeForm extends React.Component {
           onChange={this.handleChange}
           margin="normal"
           fullWidth
-          error={ErrorHandling.getFieldErrors(errors, 'passCode').length > 0}
-          helperText={
-            ErrorHandling.getFieldErrors(errors, 'passCode').length > 0
-              ? ErrorHandling.getFieldErrors(errors, 'passCode')
-              : ''
-          }
+          error={passCodeErrors.length > 0}
+          helperText={passCodeErrors || ''}
         />
         <div className="mb2" />
         <Button

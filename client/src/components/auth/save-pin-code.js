@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { graphql } from 'react-apollo';
-import savePinCodeMutation from '../../graphql/pass-code/mutation/send-pass-code';
+import savePinCodeMutation from '../../graphql/user/mutation/save-pin-code';
 
 //------------------------------------------------------------------------------
 // COMPONENT:

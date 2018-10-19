@@ -67,7 +67,7 @@ const User = mongoose.model('User', schema);
 const emailVal = Joi.string().email().min(MIN_STRING_LENGTH).max(MAX_STRING_LENGTH).required(); // eslint-disable-line
 const ipVal = Joi.string().ip(); // eslint-disable-line
 const passCodeVal = Joi.string().length(PASS_CODE_LENGTH).required(); // eslint-disable-line
-const pinCodeVal = Joi.number().length(PIN_CODE_LENGTH).required(); // eslint-disable-line
+const pinCodeVal = Joi.string().length(PIN_CODE_LENGTH).required(); // eslint-disable-line
 
 const validateNewUser = (user) => {
   const joiSchema = {
@@ -92,7 +92,7 @@ const validatePinCode = ({ pinCode }) => {
     pinCode: pinCodeVal,
   };
 
-  return Joi.validate(pinCode, joiSchema); // { error, value }
+  return Joi.validate({ pinCode }, joiSchema); // { error, value }
 };
 
 module.exports = {
