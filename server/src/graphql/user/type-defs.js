@@ -15,6 +15,7 @@ const typeDefs = `
 
   type Mutation {
     savePinCode(pinCode: String!): User!
+    validatePinCode(pinCode: String!): User!
     setPhone(phone: String!): User!
   }
 `;
