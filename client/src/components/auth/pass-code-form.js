@@ -71,12 +71,12 @@ class PassCodeForm extends React.Component {
     this.clearErrors();
 
     // Validate fields
-    const err1 = this.validateFields({ passCode });
+    const errors = this.validateFields({ passCode });
 
     // In case of errors, display on UI and return handler to parent component
-    if (ErrorHandling.hasErrors(err1)) {
-      this.setState({ errors: err1 });
-      onClientErrorHook(err1);
+    if (ErrorHandling.hasErrors(errors)) {
+      this.setState({ errors });
+      onClientErrorHook(errors);
       return;
     }
 
@@ -129,7 +129,6 @@ PassCodeForm.propTypes = {
   disabled: PropTypes.bool,
   onBeforeHook: PropTypes.func,
   onClientErrorHook: PropTypes.func,
-  onServerErrorHook: PropTypes.func,
   onSuccessHook: PropTypes.func,
 };
 
@@ -138,7 +137,6 @@ PassCodeForm.defaultProps = {
   disabled: false,
   onBeforeHook: () => {},
   onClientErrorHook: () => {},
-  onServerErrorHook: () => {},
   onSuccessHook: () => {},
 };
 

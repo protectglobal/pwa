@@ -1,5 +1,6 @@
 const { User } = require('../../../../models');
 
+// TODO: get user from context
 const setPhone = async (root, args) => {
   const { phone } = args;
 

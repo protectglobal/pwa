@@ -19,6 +19,8 @@ const getExpDate = () => (
 //------------------------------------------------------------------------------
 // MONGOOSE:
 //------------------------------------------------------------------------------
+// TODO: we should probably move this to the user model and make passCode an object
+// with value and expirationDate
 const schema = mongoose.Schema({
   email: {
     type: String,

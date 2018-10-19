@@ -3,20 +3,19 @@ import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import ErrorHandling from 'error-handling-utils';
-import isEmail from 'validator/lib/isEmail';
 
 //------------------------------------------------------------------------------
 // COMPONENT:
 //------------------------------------------------------------------------------
-class EmailForm extends React.Component {
+class PinCodeForm extends React.Component {
   state = {
-    email: 'federodes@gmail.com', // '',
-    errors: { email: [] },
+    pinCode: '',
+    errors: { pinCode: [] },
   }
 
   handleChange = ({ target }) => {
-    const { id: field, value } = target;
     const { errors } = this.state;
+    const { id: field, value } = target;
 
     // Update value and clear errors for the given field
     this.setState({
@@ -25,34 +24,32 @@ class EmailForm extends React.Component {
     });
   }
 
-  validateFields = ({ email }) => {
+  validateFields = ({ pinCode }) => {
     // Initialize errors
     const errors = {
-      email: [],
+      pinCode: [],
     };
 
-    const MAX_CHARS = 155;
+    const PASS_CODE_LENGTH = 4;
 
     // Sanitize input
-    const _email = email && email.trim(); // eslint-disable-line no-underscore-dangle
+    const _pinCode = pinCode && pinCode.trim(); // eslint-disable-line no-underscore-dangle
 
-    if (!_email) {
-      errors.email.push('Email is required!');
-    } else if (!isEmail(_email)) {
-      errors.email.push('Please, provide a valid email address!');
-    } else if (_email.length > MAX_CHARS) {
-      errors.email.push(`Must be no more than ${MAX_CHARS} characters!`);
+    if (!_pinCode) {
+      errors.pinCode.push('Pass code is required!');
+    } else if (_pinCode.length !== PASS_CODE_LENGTH) {
+      errors.pinCode.push(`Pass code must be ${PASS_CODE_LENGTH} characters long`);
     }
 
     return errors;
   }
 
   clearFields = () => {
-    this.setState({ email: '' });
+    this.setState({ pinCode: '' });
   }
 
   clearErrors = () => {
-    this.setState({ errors: { email: [] } });
+    this.setState({ errors: { pinCode: [] } });
   }
 
   handleSubmit = async (evt) => {
@@ -68,13 +65,13 @@ class EmailForm extends React.Component {
     }
 
     // Get field values
-    const { email } = this.state;
+    const { pinCode } = this.state;
 
     // Clear previous errors if any
     this.clearErrors();
 
     // Validate fields
-    const errors = this.validateFields({ email });
+    const errors = this.validateFields({ pinCode });
 
     // In case of errors, display on UI and return handler to parent component
     if (ErrorHandling.hasErrors(errors)) {
@@ -84,14 +81,12 @@ class EmailForm extends React.Component {
     }
 
     // Pass event up to parent component
-    onSuccessHook({ email });
+    onSuccessHook({ pinCode });
   }
 
   render() {
     const { btnLabel, disabled } = this.props;
-    const { email, errors } = this.state;
-
-    const emailErrors = ErrorHandling.getFieldErrors(errors, 'email');
+    const { pinCode, errors } = this.state;
 
     return (
       <form
@@ -100,15 +95,19 @@ class EmailForm extends React.Component {
         autoComplete="off"
       >
         <TextField
-          id="email"
-          type="email"
-          label="Email"
-          value={email}
+          id="pinCode"
+          type="text"
+          label="Pin Code"
+          value={pinCode}
           onChange={this.handleChange}
           margin="normal"
           fullWidth
-          error={emailErrors.length > 0}
-          helperText={emailErrors || ''}
+          error={ErrorHandling.getFieldErrors(errors, 'pinCode').length > 0}
+          helperText={
+            ErrorHandling.getFieldErrors(errors, 'pinCode').length > 0
+              ? ErrorHandling.getFieldErrors(errors, 'pinCode')
+              : ''
+          }
         />
         <div className="mb2" />
         <Button
@@ -125,7 +124,7 @@ class EmailForm extends React.Component {
   }
 }
 
-EmailForm.propTypes = {
+PinCodeForm.propTypes = {
   btnLabel: PropTypes.string,
   disabled: PropTypes.bool,
   onBeforeHook: PropTypes.func,
@@ -133,7 +132,7 @@ EmailForm.propTypes = {
   onSuccessHook: PropTypes.func,
 };
 
-EmailForm.defaultProps = {
+PinCodeForm.defaultProps = {
   btnLabel: 'Submit',
   disabled: false,
   onBeforeHook: () => {},
@@ -141,4 +140,4 @@ EmailForm.defaultProps = {
   onSuccessHook: () => {},
 };
 
-export default EmailForm;
+export default PinCodeForm;

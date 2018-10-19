@@ -1,5 +1,6 @@
 const { PassCode } = require('../../../../models');
 
+// TODO: what's this for?
 const passCode = async (root, args, context) => {
   const { email } = args;
   const { usr } = context;

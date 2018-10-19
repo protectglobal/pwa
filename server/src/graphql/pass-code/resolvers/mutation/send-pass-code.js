@@ -1,10 +1,5 @@
 const { nodemailer, transporter } = require('../../../../services/nodemailer/config');
-const {
-  User,
-  validateNewUser,
-  PassCode,
-  genPassCode,
-} = require('../../../../models');
+const { User, PassCode, genPassCode } = require('../../../../models');
 
 //------------------------------------------------------------------------------
 // AUX FUNCTIONS:
@@ -19,10 +14,8 @@ Thanks.
 //------------------------------------------------------------------------------
 // MUTATION:
 //------------------------------------------------------------------------------
-const sendPassCode = async (root, args, context) => {
+const sendPassCode = async (root, args) => {
   const { email } = args;
-  const { usr } = context;
-  console.log('sendPassCode context.usr', usr);
 
   // Is there any user associated to this email?
   const user = !!(await User.findOne({ email }));
@@ -48,18 +41,6 @@ const sendPassCode = async (root, args, context) => {
   } catch (exc) {
     console.error(exc);
   }
-
-  /*
-  try {
-    await PassCode.findOneAndUpdate(
-      { email },
-      { $set: { passCode, expirationDate: new Date() } },
-      { upsert: true, new: true },
-    );
-  } catch (exc) {
-    console.error(exc);
-  }
-  */
 
   // Send pass code to user
   const mailOptions = {
