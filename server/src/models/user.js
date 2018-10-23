@@ -10,7 +10,9 @@ const { JWT_PRIVATE_KEY } = process.env;
 
 const MIN_STRING_LENGTH = 2;
 const MAX_STRING_LENGTH = 255;
+const MAX_LONG_STRING_LENGTH = 1225;
 const PASS_CODE_LENGTH = 6;
+const PIN_CODE_LENGTH = 4;
 
 //------------------------------------------------------------------------------
 // MONGOOSE:
@@ -30,6 +32,10 @@ const schema = mongoose.Schema({
     required: [true, 'Email address is required'],
     validate: [isEmail, 'Please fill a valid email address'],
   },
+  emailVerified: {
+    type: Boolean,
+    default: false,
+  },
   ip: {
     type: String,
   },
@@ -41,6 +47,11 @@ const schema = mongoose.Schema({
     type: String,
     minlength: MIN_STRING_LENGTH,
     maxlength: MAX_STRING_LENGTH,
+  },
+  pinCode: { // hashed
+    type: String,
+    minlength: MIN_STRING_LENGTH,
+    maxlength: MAX_LONG_STRING_LENGTH,
   },
 });
 
@@ -56,6 +67,7 @@ const User = mongoose.model('User', schema);
 const emailVal = Joi.string().email().min(MIN_STRING_LENGTH).max(MAX_STRING_LENGTH).required(); // eslint-disable-line
 const ipVal = Joi.string().ip(); // eslint-disable-line
 const passCodeVal = Joi.string().length(PASS_CODE_LENGTH).required(); // eslint-disable-line
+const pinCodeVal = Joi.string().length(PIN_CODE_LENGTH).required(); // eslint-disable-line
 
 const validateNewUser = (user) => {
   const joiSchema = {
@@ -75,10 +87,19 @@ const validateLogin = (credentials) => {
   return Joi.validate(credentials, joiSchema); // { error, value }
 };
 
+const validatePinCode = ({ pinCode }) => {
+  const joiSchema = {
+    pinCode: pinCodeVal,
+  };
+
+  return Joi.validate({ pinCode }, joiSchema); // { error, value }
+};
+
 module.exports = {
   User,
   validateNewUser,
   validateLogin,
+  validatePinCode,
 };
 
 /*

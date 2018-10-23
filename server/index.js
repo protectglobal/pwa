@@ -17,6 +17,7 @@ const initDB = require('./src/models/init-db');
 // const users = require('./src/routes/users');
 // const auth = require('./src/routes/auth');
 const errorHandling = require('./src/middlewares/error');
+const signup = require('./src/routes/signup');
 const login = require('./src/routes/login');
 const events = require('./src/routes/events');
 const hello = require('./src/routes/hello');
@@ -137,6 +138,7 @@ const server = new ApolloServer({
     },
   },
 });
+
 server.applyMiddleware({ app, path: '/graphql' });
 
 //------------------------------------------------------------------------------
@@ -144,6 +146,7 @@ server.applyMiddleware({ app, path: '/graphql' });
 //------------------------------------------------------------------------------
 // app.use('/api/users', users);
 // app.use('/api/auth', auth);
+app.use('/api/signup', signup);
 app.use('/api/login', login);
 app.use('/api/events', events);
 app.use('/api/hello', hello);

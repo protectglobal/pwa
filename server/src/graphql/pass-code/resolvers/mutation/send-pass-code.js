@@ -1,10 +1,5 @@
 const { nodemailer, transporter } = require('../../../../services/nodemailer/config');
-const {
-  User,
-  validateNewUser,
-  PassCode,
-  genPassCode,
-} = require('../../../../models');
+const { User, PassCode, genPassCode } = require('../../../../models');
 
 //------------------------------------------------------------------------------
 // AUX FUNCTIONS:
@@ -19,42 +14,30 @@ Thanks.
 //------------------------------------------------------------------------------
 // MUTATION:
 //------------------------------------------------------------------------------
-const sendPassCode = async (root, args, context) => {
+const sendPassCode = async (root, args) => {
   const { email } = args;
-  const { usr } = context;
-  console.log('sendPassCode context.usr', usr);
 
   // Is there any user associated to this email?
-  const userExists = !!(await User.findOne({ email }));
+  const user = !!(await User.findOne({ email }));
 
-  // If no, create a new user record before sending the pass code
-  if (!userExists) {
-    const newUser = { email, ip: usr.ip };
-
-    const { error } = validateNewUser(newUser);
-    if (error) {
-      console.error(error);
-      return { status: 500 };
-    }
-
-    try {
-      const user = new User(newUser);
-      await user.save();
-    } catch (exc) {
-      console.log(exc);
-      return { status: 500 };
-    }
+  if (!user) {
+    // return { status: 500 };
+    throw new Error('User not found');
   }
 
   // Genearte a 6-digit pass code and store it into DB
   const passCode = genPassCode(6);
 
+  // Check if pass code record exists. If no, add it. Otherwise, edit it.
   try {
-    await PassCode.findOneAndUpdate(
-      { email },
-      { $set: { passCode } },
-      { upsert: true, new: true },
-    );
+    const record = await PassCode.findOne({ email });
+    if (!record) {
+      const newRecord = new PassCode({ email, passCode });
+      await newRecord.save();
+    } else {
+      record.passCode = passCode;
+      await record.save();
+    }
   } catch (exc) {
     console.error(exc);
   }

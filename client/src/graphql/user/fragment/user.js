@@ -8,6 +8,7 @@ const userFragment = gql`
     cannonId
     email
     phone
+    pinCodeSet
   }
 `;
 

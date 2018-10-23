@@ -1,7 +1,6 @@
 const express = require('express');
 const pick = require('lodash/pick');
 const bcrypt = require('bcrypt');
-
 const { User, validateNewUser } = require('../models');
 
 const router = express.Router();

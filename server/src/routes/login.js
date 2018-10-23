@@ -30,6 +30,15 @@ router.post('/', async (req, res) => {
     return;
   }
 
+  // Check expirationDate
+  if (record.expired()) {
+    res.status(400).send('Pass code has expired'); // Bad request
+    return;
+  }
+
+  // Set emailVerifield field to 'true'
+  await User.update({ _id: user._id }, { $set: { emailVerified: true } }).exec();
+
   const token = user.genAuthToken();
   res.header('x-auth-token', token).status(200).send(pick(user, ['_id'])); // Success request
 });

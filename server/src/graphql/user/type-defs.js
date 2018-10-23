@@ -6,6 +6,7 @@ const typeDefs = `
     cannonId: String # TODO: ID
     email: String!
     phone: String
+    pinCodeSet: Boolean!
   }
 
   type Query {
@@ -13,6 +14,8 @@ const typeDefs = `
   }
 
   type Mutation {
+    savePinCode(pinCode: String!): User!
+    validatePinCode(pinCode: String!): User!
     setPhone(phone: String!): User!
   }
 `;

@@ -4,7 +4,9 @@ import { propType } from 'graphql-anywhere';
 // See: https://material.io/tools/icons/?style=baseline
 import WavesIcon from '@material-ui/icons/Waves';
 import userFragment from '../../graphql/user/fragment/user';
+import ModalProps from '../../render-props/modal-props';
 import SquareButton from '../common/square-button';
+import EnterPinCodeModal from '../auth/enter-pin-code-modal';
 
 //------------------------------------------------------------------------------
 // COMPONENT:
@@ -32,12 +34,29 @@ class PanicBtn extends React.PureComponent {
     } */
 
     return (
-      <SquareButton
-        text="RELEASE FOG"
-        icon={WavesIcon}
-        disabled={disabled}
-        onClick={this.handleClick}
-      />
+      <ModalProps>
+        {({ visible, openModal, closeModal }) => [
+          <SquareButton
+            key="button"
+            text="RELEASE FOG"
+            icon={WavesIcon}
+            disabled={disabled}
+            onClick={openModal}
+          />,
+          visible && (
+            <EnterPinCodeModal
+              key="modal"
+              visible={visible}
+              closeModal={closeModal}
+              onValidPinCode={() => {
+                closeModal(() => {
+                  this.handleClick();
+                });
+              }}
+            />
+          ),
+        ]}
+      </ModalProps>
     );
   }
 }

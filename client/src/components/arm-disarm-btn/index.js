@@ -4,7 +4,9 @@ import { propType } from 'graphql-anywhere';
 // See: https://material.io/tools/icons/?style=baseline
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import userFragment from '../../graphql/user/fragment/user';
+import ModalProps from '../../render-props/modal-props';
 import SquareButton from '../common/square-button';
+import EnterPinCodeModal from '../auth/enter-pin-code-modal';
 
 //------------------------------------------------------------------------------
 // COMPONENT:
@@ -33,12 +35,29 @@ class ArmDisarmBtn extends React.PureComponent {
     } */
 
     return (
-      <SquareButton
-        text="ARM / DISARM CANNON"
-        icon={VisibilityIcon}
-        disabled={disabled}
-        onClick={this.handleClick}
-      />
+      <ModalProps>
+        {({ visible, openModal, closeModal }) => [
+          <SquareButton
+            key="button"
+            text="ARM / DISARM CANNON"
+            icon={VisibilityIcon}
+            disabled={disabled}
+            onClick={openModal}
+          />,
+          visible && (
+            <EnterPinCodeModal
+              key="modal"
+              visible={visible}
+              closeModal={closeModal}
+              onValidPinCode={() => {
+                closeModal(() => {
+                  this.handleClick();
+                });
+              }}
+            />
+          ),
+        ]}
+      </ModalProps>
     );
   }
 }
