@@ -1,7 +1,7 @@
 /* const express = require('express');
 const pick = require('lodash/pick');
 const bcrypt = require('bcrypt');
-const { User, validateLogin } = require('../models');
+const { User, validLogin } = require('../models');
 
 const router = express.Router();
 
@@ -9,7 +9,7 @@ router.post('/', async (req, res) => {
   const data = req.body;
   const credentials = pick(data, ['email', 'password']);
 
-  const { error } = validateLogin(credentials);
+  const { error } = validLogin(credentials);
   if (error) {
     console.log(error);
     res.status(400).send(error.details[0].message); // Bad request

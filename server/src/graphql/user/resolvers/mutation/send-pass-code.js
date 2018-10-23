@@ -1,5 +1,5 @@
 const { nodemailer, transporter } = require('../../../../services/nodemailer/config');
-const { User, PassCode, genPassCode } = require('../../../../models');
+const { User } = require('../../../../models');
 
 //------------------------------------------------------------------------------
 // AUX FUNCTIONS:
@@ -18,29 +18,15 @@ const sendPassCode = async (root, args) => {
   const { email } = args;
 
   // Is there any user associated to this email?
-  const user = !!(await User.findOne({ email }));
+  const user = await User.findOne({ email });
 
   if (!user) {
     // return { status: 500 };
     throw new Error('User not found');
   }
 
-  // Genearte a 6-digit pass code and store it into DB
-  const passCode = genPassCode(6);
-
-  // Check if pass code record exists. If no, add it. Otherwise, edit it.
-  try {
-    const record = await PassCode.findOne({ email });
-    if (!record) {
-      const newRecord = new PassCode({ email, passCode });
-      await newRecord.save();
-    } else {
-      record.passCode = passCode;
-      await record.save();
-    }
-  } catch (exc) {
-    console.error(exc);
-  }
+  // Genearte a 6-digit pass code and attach it to the user
+  const passCode = await user.genPassCode(6);
 
   // Send pass code to user
   const mailOptions = {
@@ -51,7 +37,7 @@ const sendPassCode = async (root, args) => {
     // html: '<b>Hello world?</b>', // html body
   };
 
-  // Send mail with defined transport object
+  // Send email with defined transport object
   try {
     const info = await transporter.sendMail(mailOptions);
     console.log('Message sent: %s', info.messageId);

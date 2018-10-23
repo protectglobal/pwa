@@ -1,6 +1,6 @@
-const { PassCode } = require('../../../../models');
+// const { PassCode } = require('../../../../models');
 
-// TODO: what's this for?
+// Send pass code to front-end for testing purposes
 const passCode = async (root, args, context) => {
   const { email } = args;
   const { usr } = context;
