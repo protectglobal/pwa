@@ -11,9 +11,11 @@ const typeDefs = `
 
   type Query {
     user: User
+    passCode(email: String!): Int!
   }
 
   type Mutation {
+    sendPassCode(email: String!): Response!
     savePinCode(pinCode: String!): User!
     validatePinCode(pinCode: String!): User!
     setPhone(phone: String!): User!
