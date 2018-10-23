@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const { User, validatePinCode: valPinCode } = require('../../../../models');
+const { User, validPinCode } = require('../../../../models');
 
 const validatePinCode = async (root, args, context) => {
   const { pinCode } = args;
@@ -15,7 +15,7 @@ const validatePinCode = async (root, args, context) => {
     throw new Error('User not found');
   }
 
-  const { error } = valPinCode({ pinCode });
+  const { error } = validPinCode({ pinCode });
   if (error) {
     console.error(error.details[0].message);
     throw new Error(error.details[0].message); // Bad request

@@ -1,6 +1,6 @@
 const express = require('express');
 const pick = require('lodash/pick');
-const { User, validateLogin, PassCode } = require('../models');
+const { User, validLogin, PassCode } = require('../models');
 
 const router = express.Router();
 
@@ -8,7 +8,7 @@ router.post('/', async (req, res) => {
   const data = req.body;
   const credentials = pick(data, ['email', 'passCode']);
 
-  const { error } = validateLogin(credentials);
+  const { error } = validLogin(credentials);
   if (error) {
     console.error(error);
     res.status(400).send(error.details[0].message); // Bad request

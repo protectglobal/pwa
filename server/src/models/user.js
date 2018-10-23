@@ -69,7 +69,7 @@ const ipVal = Joi.string().ip(); // eslint-disable-line
 const passCodeVal = Joi.string().length(PASS_CODE_LENGTH).required(); // eslint-disable-line
 const pinCodeVal = Joi.string().length(PIN_CODE_LENGTH).required(); // eslint-disable-line
 
-const validateNewUser = (user) => {
+const validNewUser = (user) => {
   const joiSchema = {
     email: emailVal,
     ip: ipVal,
@@ -78,7 +78,7 @@ const validateNewUser = (user) => {
   return Joi.validate(user, joiSchema); // { error, value }
 };
 
-const validateLogin = (credentials) => {
+const validLogin = (credentials) => {
   const joiSchema = {
     email: emailVal,
     passCode: passCodeVal,
@@ -87,7 +87,7 @@ const validateLogin = (credentials) => {
   return Joi.validate(credentials, joiSchema); // { error, value }
 };
 
-const validatePinCode = ({ pinCode }) => {
+const validPinCode = ({ pinCode }) => {
   const joiSchema = {
     pinCode: pinCodeVal,
   };
@@ -97,9 +97,9 @@ const validatePinCode = ({ pinCode }) => {
 
 module.exports = {
   User,
-  validateNewUser,
-  validateLogin,
-  validatePinCode,
+  validNewUser,
+  validLogin,
+  validPinCode,
 };
 
 /*
@@ -121,7 +121,7 @@ const emailVal = Joi.string().email().min(MIN_STRING_LENGTH).max(MAX_STRING_LENG
 const passwordVal = Joi.string().min(MIN_STRING_LENGTH).max(MAX_LONG_STRING_LENGTH).required(); // eslint-disable-line
 const passCodeVal = Joi.string().length(PASS_CODE_LENGTH).required(); // eslint-disable-line
 
-const validateNewUser = (user) => {
+const validNewUser = (user) => {
   const joiSchema = {
     name: nameVal,
     email: emailVal,
@@ -132,7 +132,7 @@ const validateNewUser = (user) => {
   return Joi.validate(user, joiSchema); // { error, value }
 };
 
-const validateLogin = (credentials) => {
+const validLogin = (credentials) => {
   const joiSchema = {
     email: emailVal,
     password: passwordVal,
