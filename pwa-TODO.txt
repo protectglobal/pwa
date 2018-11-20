@@ -1,0 +1,36 @@
+remove passCode after login
+
+
+signup screens:
+--> pass code 6 chars long
+
+// TODO: use middleware
+// Users.utils.checkLoggedInAndVerified(userId);
+// if (!usr) {
+//   throw new Error(404, 'User not found');
+// }
+
+check pass-code query
+
+rate-limited api calls/ mutations
+
+JWT token expiration date
+
+
+forgot/reset pin
+
+move startup code to startup folder
+
+
+
+DONE:
+
+login screens
+--> ask for email DONE
+--> send pass code and login DONE
+
+signup screens:
+--> ask for email DONE
+--> send pass code and set email as verified DONE
+--> remove restriction about PASS CODE length front-end DONE
+--> set expiration date for PassCode DONE

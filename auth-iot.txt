@@ -1,0 +1,54 @@
+Passwordless better than password based solutions:
+
+https://auth0.com/blog/is-passwordless-authentication-more-secure-than-passwords/
+
+
+Two Factor Auth:
+https://auth0.com/learn/two-factor-authentication/
+
+https://www.howtogeek.com/232598/5-different-two-step-authentication-methods-to-secure-your-online-accounts/
+
+https://www.howtogeek.com/199262/authy-two-factor-authentication-made-easy/
+
+https://hackernoon.com/how-do-you-authenticate-mate-f2b70904cc3a
+
+https://www.theverge.com/2017/7/10/15946642/two-factor-authentication-online-security-mess
+
+//---------------
+
+Now that we have an idea of where two-factor authentication should be used in your organization, let’s review a few types of authentication methods:
+
+Grid Cards – with grid cards the user is prompted to enter coordinates from a physical piece of paper after supplying the proper password to the application.
+
+Biometrics – this one’s been around for a while and it relies on the concept of analyzing “something the user is” rather than “something the user has”. It uses a physical part of the user, such as a retina or fingerprint, to verify the identity of the person.
+
+Tokens – a token is physical device that displays characters that change at set intervals. When a user logs in they also have to check their physical token and insert the current characters displayed on it, as second authentication factor.
+
+SMS – with the emergence of mobile phones we’ve seen many companies use smartphone as a second method of authentication. For this method, the users inserts a code sent to his/her phone as the secondary authentication. The mindset around this is that since most people use their phones for themselves, it’s a unique enough method to send the second factor of authentication.
+
+Mobile – similar to the SMS method you can download an app to your phone that serves as token. Like the physical token the app displays characters that change at set intervals, which the users inserts into the online application.
+
+//----------------
+
+IoT auth:
+https://research.csiro.au/distributed-systems-security/research/technology/iot-authentication-platform/
+
+
+//----------------
+
+Security on IOT apps/devices:
+
+https://techbeacon.com/how-put-s-security-your-iot-development
+
+https://www.secureidnews.com/news-item/authentication-in-the-iot-challenges-and-opportunities/
+
+https://www.forbes.com/sites/gilpress/2017/03/20/6-hot-internet-of-things-iot-security-technologies/#680dd06c1b49
+
+//------------------
+
+Observations:
+
+For any 2FA system we'll need to provide/implement recovery password in case phone is lost/stolen
+
+Passwordless for loging in and SMS token as a second factor auth for every transaction: realease fog, arm/disarm
+

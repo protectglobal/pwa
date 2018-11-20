@@ -1,0 +1,41 @@
+Hi Federico
+
+ 
+
+The Chacon smart light module is now under way to you. ETA some time next week.
+
+ 
+
+Pls find attached the fault codes that the PWA needs to be able to receive and display, and here is a link to the datasheet of the fog cannon. You can see it in action here.
+
+ 
+
+As we talked about, let’s begin with a page showing a virtual fog cannon with the 5 inputs visible on the outside. These inputs should be able to change status (color) depending on whether they are ‘triggered’ or not.
+
+ 
+
+Input 1 (ARM): Arms/disarms the fog cannon. Controlled by PWA and/or alarm system.
+
+Input 2 (Primary): Break-in sensor / alarm system
+
+Input 3 (Secondary): Verifying sensor (room sensor / door switch)
+
+Input 4 (Disable): Disables the fog cannon. Controlled by PWA and/or alarm system.
+
+Input 5 (Fire): Fire sensor. Disables the fog cannon in case of fire.
+
+ 
+
+Next to the virtual fog cannon, I suggest that you make a panel with the fault codes. These should be clickable and when clicked, the fault code should appear as an alert/sms in the PWA.
+
+ 
+
+If you have any questions, just ping me. The fastest way is via WhatsApp on +45 26 30 18 84.
+
+ 
+
+Best,
+
+Torben
+
+

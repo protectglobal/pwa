@@ -1,0 +1,25 @@
+IP basics:
+
+http://www.steves-internet-guide.com/internal-external-ip-addresses/
+
+http://www.steves-internet-guide.com/understanding-port-forwarding/
+
+http://www.steves-internet-guide.com/dynamic-dns/
+
+https://www.howtogeek.com/66214/how-to-forward-ports-on-your-router/
+
+
+DIY - Port/Network scanning:
+
+https://defuse.ca/in-browser-port-scanning.htm
+
+https://security.stackexchange.com/questions/145336/how-can-a-webpage-scan-my-local-internal-network-from-the-internet
+
+https://socialwifi.com/knowledge-base/network-monitoring/network-scanning-fing/
+
+https://security.stackexchange.com/questions/94783/why-is-my-internal-ip-address-private-visible-from-the-internet
+
+On Home networks the home router is usually pre-configured to assign IP addresses in the 192.168.x.x address range.
+
+
+https://cheesecakelabs.com/blog/developing-iot-apps-connecting-smart-devices/
